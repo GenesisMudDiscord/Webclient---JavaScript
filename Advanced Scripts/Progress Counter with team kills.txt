@@ -1,0 +1,411 @@
+=============================================================================================
+=============================================================================================
+=============================================================================================
+
+PROGRESS COUNTER TOOL: Captures and displays number of kills and time needed to
+reach each progress level. 
+
+Usage: 
+======
++At initial login, use <progressresetall> to setup
++<progress> shows kills and time for each progress level as well as 
+team kill counts
++<lastprogress> shows kills and time since last progress level reached
++<showkills> announces kill counts for each team member via 
+"say to team". Note this will show results for all team members since 
+last <progressreset> or <progressresetall> issued.
+
+Tips: 
+=====
++When creating triggers and aliases for this tool, suggested names are
+given based on functionality but NOT required - some are rather long and
+you may prefer to shorten them.
++If you see "Not my kill and not in team - not counting in progress!" or
+"Killer not on my team - not counting in progress!" and you ARE in a team or the
+killer IS on your team, use <team> to refresh progress counter memory of team
+members. 
++To reset progress counter for a new team and/or area, use <progressreset>
+
+Known issues: 
+=============
++team members that have not been introduced will not have their kills counted
+
+Authors: 
+========
+Shanoga and Kelrhys
+
+Changelog:
+==========
+20190830: Fixed progressDate issue after return from linkdeath in new tab/session
+20190831: Rewrote to ignore mud.gmcp team values due to issues with reconnecting.
+Removed linkdead alias as all reconnect issues should be resolved. Added <showkills>
+alias and team_update trigger. All aliases and triggers must be updated for this
+release.
+
+Manifest:
+=========
+3 triggers, 5 aliases
+
+=============================================================================================
+=============================================================================================
+=============================================================================================
+
+PROGRESS COUNTER ALIAS
+---------------------------------------------------------------------------------------------------
+Name: progress 
+JavaScript:
+---------------------------------------------------------------------------------------------------
+
+// Initialize a few variables for formatting and timekeeping
+var space = " ";
+var secondsBetween = 0;
+var minutesBetween = 0;
+var hoursBetween = 0;
+var hoursBetween = 0;
+ 
+// Make sure that we have at least one kill
+if (gwc.userdata.dailyKills === undefined ||
+      gwc.userdata.dailyKills == 0) {
+  gwc.output.append("You haven't killed anything yet...");
+  return;
+}
+ 
+// Skip a line and set the header and form for the table
+gwc.output.append("@----------------------------------------------@");
+gwc.output.append("|     PROGRESS THIS SESSION     |   DURATION   |");
+gwc.output.append("|----------------------------------------------|");
+ 
+// Loop through each progress level and the number of kills
+// Format to left-align the name of the progress level
+// Reserve spaces for up to 9999 (over 1000) kills per progress level
+// Right-align the labeled kill count
+for (var progress in gwc.userdata.progressTable) {
+  if (gwc.userdata.currentProgress == "insignificant") {
+    gwc.output.append("|        NO PROGRESS YET        |              |");
+    continue;
+  } else if (progress == "insignificant") {
+    //gwc.output.append("|                               |              |");
+    continue;
+  }
+  secondsBetween = gwc.userdata.progressTimeTable[progress];
+  if (secondsBetween > 60 && secondsBetween < 3601) {
+    minutesBetween = Math.floor(secondsBetween / 60);
+    secondsBetween = secondsBetween % 60;
+    gwc.output.append("| " + progress + ":" + space.repeat(16 - progress.length) + "  " +
+                      space.repeat(4 - gwc.userdata.progressTable[progress].toString().length) +
+                      gwc.userdata.progressTable[progress] + " kills |      " +
+                      space.repeat(2 - minutesBetween.toString().length) + minutesBetween + "m " +
+                      space.repeat(2 - secondsBetween.toString().length) + secondsBetween + "s |");
+  } else if (secondsBetween < 60) {
+    gwc.output.append("| " + progress + ":" + space.repeat(16 - progress.length) + "  " +
+                      space.repeat(4 - gwc.userdata.progressTable[progress].toString().length) +
+                      gwc.userdata.progressTable[progress] + " kills |          " +
+                      space.repeat(2 - secondsBetween.toString().length) + secondsBetween + "s |");
+  } else {
+    hoursBetween = Math.floor(secondsBetween / 3600);
+    minutesBetween = Math.floor((secondsBetween - (hoursBetween * 3600)) / 60);
+    secondsBetween = secondsBetween % 60;
+    gwc.output.append("| " + progress + ":" + space.repeat(16 - progress.length) + "  " +
+                      space.repeat(4 - gwc.userdata.progressTable[progress].toString().length) +
+                      gwc.userdata.progressTable[progress] + " kills |  " +
+                      space.repeat(2 - hoursBetween.toString().length) + hoursBetween + "h " +
+                      space.repeat(2 - minutesBetween.toString().length) + minutesBetween + "m " +
+                      space.repeat(2 - secondsBetween.toString().length) + secondsBetween + "s |");
+  }
+}
+if (progress != "insignificant") gwc.output.append("|----------------------------------------------|");
+gwc.output.append("| Total Kills: " + gwc.userdata.dailyKills  + " -- Fantastics: " +
+                  gwc.userdata.fantasticProgress +
+                  space.repeat(16 - (gwc.userdata.dailyKills.toString().length +
+                                     gwc.userdata.fantasticProgress.toString().length)) + "|");
+
+// Show team kills
+var killStringList = [];
+for (var who in gwc.userdata.killsTable) {
+	killStringList.push("[" + gwc.userdata.killsTable[who] + "] " + who);
+}
+// Print 2 names per line, if possible
+for (var i=0; i<killStringList.length; i++) {
+  // Print even-numbered element plus next in list, if it exists
+  if ((i%2 == 0) && (i+1 < killStringList.length)) {
+    gwc.output.append("| " + killStringList[i].padEnd(22, " ") + 
+	killStringList[i+1].padEnd(22, " ") + " |");
+	i++;
+  } else {
+    // Print last/only element
+	gwc.output.append("| " + killStringList[i].padEnd(44) + " |");
+  }
+}    
+gwc.output.append("@----------------------------------------------@");
+
+=============================================================================================
+=============================================================================================
+=============================================================================================
+
+LAST PROGRESS ALIAS
+---------------------------------------------------------------------------------------------------
+Name: lastprogress 
+JavaScript:
+---------------------------------------------------------------------------------------------------
+
+// Make sure progressTime is set to date rather than string value. After
+// return from linkdeath it is string type rather than integer
+if (typeof gwc.userdata.progressTime == "string") {
+  gwc.userdata.progressTime = Date.parse(gwc.userdata.progressTime);
+}
+// Initialize some variables and get the current time
+var tempDate = new Date();
+var tempTime = Math.floor((tempDate.getTime() - gwc.userdata.progressTime) / 1000 );
+var timeString = '';
+
+// Set the string value for the amount of time since last progress
+if (tempTime > 3599) {
+  timeString = Math.floor(tempTime/3600) + ' hour';
+  if (Math.floor(tempTime/3600) != 1) timeString += 's';
+  tempTime -= 3600 * (Math.floor(tempTime/3600));
+}
+timeString += ' ' + Math.floor(tempTime/60) + ' minute';
+if (Math.floor(tempTime/60) != 1) timeString += 's';
+timeString += ' ' + tempTime % 60 + ' second';
+if (tempTime % 60 != 1) timeString += 's';
+
+// Print the messages
+gwc.output.append('@----------------------------------------------------------@');
+gwc.output.append('| Kills since last progress: ' + gwc.userdata.progressKills.toString().padEnd(30, " ") + "|");
+gwc.output.append('| Time since last progress: ' + timeString.padEnd(31, ' ') + '|');
+gwc.output.append('@----------------------------------------------------------@');
+
+
+=============================================================================================
+=============================================================================================
+=============================================================================================
+
+SHOWKILLS ALIAS
+---------------------------------------------------------------------------------------------------
+Name: showkills 
+Javascript:
+---------------------------------------------------------------------------------------------------
+
+let send = gwc.connection.send;
+let print = gwc.output.append;
+
+function getSortedKills(killsTable) {
+  var keys = Object.keys(killsTable);
+  return keys.sort(function(a,b){return killsTable[b]-killsTable[a];});
+}
+send('say to team Who\'s the bloodthirstiest of all?');
+var sortedKills = getSortedKills(gwc.userdata.killsTable);
+for (var i=0; i<sortedKills.length; i++) {
+  var who = sortedKills[i];
+  if (who == 'You') {
+    send('say to team ' + gwc.gmcp.data.character.status.name + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
+  } else {
+    send('say to team ' + who + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
+  }
+}
+
+=============================================================================================
+=============================================================================================
+=============================================================================================
+
+PROGRESS RESET ALIAS
+---------------------------------------------------------------------------------------------------
+Name: progressreset 
+Javascript:
+---------------------------------------------------------------------------------------------------
+
+// Resets the progress counter variables
+gwc.userdata.progressKills = 0;
+gwc.userdata.progressTime = new Date();
+gwc.userdata.progressTable = {};
+gwc.userdata.progressTimeTable = {};
+gwc.userdata.killsTable = {};
+gwc.connection.send('team');
+gwc.output.append('Reset progress counter...');
+
+=============================================================================================
+=============================================================================================
+=============================================================================================
+
+PROGRESS RESET ALL ALIAS
+---------------------------------------------------------------------------------------------------
+Name: progressresetall 
+Javascript:
+---------------------------------------------------------------------------------------------------
+
+// Resets the progress counter variables
+gwc.userdata.dailyKills = 0;
+gwc.userdata.fantasticProgress = 0;
+gwc.userdata.progressKills = 0;
+gwc.userdata.progressTime = new Date();
+gwc.userdata.progressTable = {};
+gwc.userdata.progressTimeTable = {};
+gwc.userdata.killsTable = {};
+gwc.connection.send('team');
+gwc.output.append('Reset ALL progress counter...');
+
+=============================================================================================
+=============================================================================================
+=============================================================================================
+
+PROGRESS COUNTER TRIGGER:
+---------------------------------------------------------------------------------------------------
+Name: kill_trigger
+Type: regexp
+Pattern: ^(\w+) (killed|defeated) (.*)\.$
+Javascript:
+---------------------------------------------------------------------------------------------------
+
+// Initialize team variables
+if (gwc.userdata.team === undefined)gwc.userdata.team = {};
+if (gwc.userdata.team.leader === undefined) gwc.userdata.team.leader = '';
+if (gwc.userdata.team.members === undefined) gwc.userdata.team.members = [];
+
+// Make sure progressTime is set to date rather than string value. After
+// return from linkdeath it is string type rather than integer
+if (typeof gwc.userdata.progressTime == "string") {
+  gwc.userdata.progressTime = Date.parse(gwc.userdata.progressTime);
+}
+var killer = args[1];
+
+// Check to see if the enemy died to me or a teammate
+if (killer != 'You') {
+  // I didn't get the kill...
+  if (gwc.userdata.team.leader == '') {
+    // ...and I'm not in a team. Don't count it.
+	gwc.output.append('Not my kill and not in team - not counting in progress!');
+    return;
+  } else if (killer != gwc.userdata.team.leader) {
+    // ...my leader didn't get the kill...
+    if (Object.values(gwc.userdata.team.members).indexOf(killer) == -1) {
+      // ...none of my teammates to the kill.  Don't count it.
+	  gwc.output.append('Killer not on my team - not counting in progress!');
+      return;
+    }
+  }
+}
+
+// Teammate or I got the kill - Update kill counters
+if (gwc.userdata.killsTable === undefined) gwc.userdata.killsTable = {};
+var found = false;
+for (var who in gwc.userdata.killsTable) {
+  if (who == killer) {
+    gwc.userdata.killsTable[who] += 1;
+	found = true;
+	break;
+  }
+}
+if (!found) {
+  // Add new killer to table 
+  gwc.userdata.killsTable[killer] = 1;
+}
+
+// Record our progress level after the kill
+var newProgress = gwc.gmcp.data.character.vitals.progress;
+
+// Initialize the userdata after the first kill of the session
+if (gwc.userdata.dailyKills === undefined) gwc.userdata.dailyKills = 0;
+if (gwc.userdata.progressKills === undefined) gwc.userdata.progressKills = 0;
+if (gwc.userdata.fantasticProgress === undefined) gwc.userdata.fantasticProgress = 0;
+if (gwc.userdata.currentProgress === undefined) gwc.userdata.currentProgress = "no measurable";
+if (gwc.userdata.progressTable === undefined) gwc.userdata.progressTable = {};
+if (gwc.userdata.progressTimeTable === undefined) gwc.userdata.progressTimeTable = {};
+if (gwc.userdata.progressTime === undefined) {
+  gwc.userdata.progressTime = new Date();
+}
+
+// Increment the counters of kills for the session (dailyKills)
+//  and the kills since the last progress level (progressKills)
+gwc.userdata.dailyKills += 1;
+gwc.userdata.progressKills += 1;
+
+// Check if the progress level after the kill is the same as before the kill
+// If the progress level is new, then record the level and its number of kills in a table
+if (gwc.userdata.currentProgress != newProgress && newProgress != 'insignificant') {
+  gwc.output.append('Adding new progress entry: ' + newProgress + ' from ' + gwc.userdata.currentProgress);
+  gwc.userdata.progressTable[newProgress] = gwc.userdata.progressKills;
+  var tempDate = new Date();
+  gwc.userdata.progressTimeTable[newProgress] = Math.floor((tempDate.getTime() - gwc.userdata.progressTime) / 1000);
+  gwc.userdata.progressKills = 0;
+  gwc.userdata.progressTime = tempDate;
+  gwc.connection.send('team');
+  gwc.connection.send('progress', true);
+}
+
+// Reset the counters when at fantastic
+if (newProgress == "fantastic") {
+  gwc.userdata.fantasticProgress += 1;
+  gwc.output.append("FANTASTIC PROGRESS - STATS RESET");
+  gwc.connection.send("stats reset");
+  gwc.userdata.currentProgress = "no measurable";
+  gwc.userdata.progressTable = {};
+  gwc.userdata.progressTime = tempDate;
+}
+
+// Store the new progress level as our current progress level
+gwc.userdata.currentProgress = newProgress;
+
+=============================================================================================
+=============================================================================================
+=============================================================================================
+
+TEAM RESET TRIGGER
+---------------------------------------------------------------------------------------------------
+Name: Team reset trigger
+Type: regexp
+Pattern: ^The leader of your team is (\w+). (The other member is (\w+).|You are the only member.|The other members are (.*).)$|^You are the leader of your team. The members are (.*).$|^You are not in a team.$
+---------------------------------------------------------------------------------------------------
+Pattern (JavaScript):
+
+// Initialize and define the gmcp variables in case we are fighting solo
+if (gwc.userdata.team === undefined)gwc.userdata.team = {};
+gwc.userdata.team.leader = '';
+gwc.userdata.team.members = [];
+
+// Set team leader and members
+if (args[0].includes('The leader of your team is')) {
+    gwc.userdata.team.leader = args[1];
+    gwc.output.append('Team leader is: ' +  gwc.userdata.team.leader);
+} else if (args[0].includes('You are the leader of your team')) {
+    gwc.userdata.team.leader = 'You';
+    gwc.output.append('Team leader is: ' +  gwc.userdata.team.leader);
+}
+
+if (args[0].includes('member')) {
+    // Set other team members
+	var index = 3;
+	if (args[0].includes('The other members are')) {
+	  index++;
+	}
+	if (gwc.userdata.team.leader == 'You') {
+	  index += 2;
+	}
+	var members = args[index].split(/[\s,]+/);
+
+    for (var i=0; i<members.length; i++) {
+	  if (members[i] != 'and') {
+        gwc.output.append('Adding member: ' + members[i]);
+        gwc.userdata.team.members.push(members[i]);
+	  }
+    }
+    gwc.output.append('Team members set to: ' +  gwc.userdata.team.members);
+} else if (args[0].includes('You are not in a team')) {
+  gwc.output.append('Reset team leader and members.');
+}
+
+=============================================================================================
+=============================================================================================
+=============================================================================================
+
+TEAM UPDATE TRIGGER
+---------------------------------------------------------------------------------------------------
+Name: team_update
+Type: regexp
+Pattern: You are now led by|joins your team|joins the team of|team and forces you to leave|leave[s]? the team of|As you enter the team|Your leader is now|makes you the leader
+
+Execute the following commands:
+  team
+
+=============================================================================================
+=============================================================================================
+=============================================================================================
