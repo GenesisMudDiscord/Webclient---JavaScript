@@ -1,7 +1,0 @@
-===============================================================================================
-Pattern: mutenpc
-
-Execute the following javascript:
-  mud.Process.outgoing_gmcp("core.options", {"npc_comms" : "off"});
-  gwc.output.append('NPC comms muted');
-===============================================================================================
