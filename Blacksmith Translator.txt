@@ -1,3 +1,10 @@
++==============================================================================+
+| DESCRIPTION: Indexing output of <sminspect> and item durability              |
+| TYPE: Trigger                                                                |
+| USAGE: Plug and Play                                                         |
+| AUTHOR: Timothy                                                              |
++==============================================================================+
+
 Trigger Name: Blacksmith Translator
 Type: regexp
 Pattern: ^(It is almost impossible to get a good strike with this weapon|It is difficult to use this weapon properly|It feels good when you wield this weapon--you would most likely have no trouble getting a good hit with this weapon|You should have no trouble handling this weapon--or making a cruel hit with it for that matter|Even an apprentice warrior could kill easily with this weapon|With this weapon almost every strike could be a killing blow|This weapon doesn&#39;t seem very effective|This weapon might do some damage with a lucky hit|This weapon seems quite effective|This weapon could most likely kill with a single swipe|This weapon is extremely powerful and more lethal than many of the famous weapons|With this weapon even a single warrior will be able to match a large force|This armour wouldn&#39;t even protect you from a very weak blow|This armour could perhaps reduce damage a little|This seems to be an armour of average quality|This armour would protect you very well|This is an extremely well-made armour which would protect you very well|Virtually nothing could harm you if you wore this armour|(.*) (?:in prime condition|in a fine condition|touched by battle|scarred by battle|very scarred by battle|in big need of a smith|a little worn down|in a very bad shape|in urgent need of repair|going to break any second).$
@@ -41,9 +48,9 @@ var translator = {
   'going to break any second':'[1/7]',
   
   //Armour Condition
-  'a little worn down':'[5/4]',
-  'in a very bad shape':'[3]',
-  'in urgent need of repair':'[2]',
+  'a little worn down':'[4/5]',
+  'in a very bad shape':'[3/5]',
+  'in urgent need of repair':'[2/5]',
 }
 
 if (args[1] === 'This armour wouldn&#39;t even protect you from a very weak blow.') {
