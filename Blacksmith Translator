@@ -1,0 +1,59 @@
+Trigger Name: Blacksmith Translator
+Type: regexp
+Pattern: ^(It is almost impossible to get a good strike with this weapon|It is difficult to use this weapon properly|It feels good when you wield this weapon--you would most likely have no trouble getting a good hit with this weapon|You should have no trouble handling this weapon--or making a cruel hit with it for that matter|Even an apprentice warrior could kill easily with this weapon|With this weapon almost every strike could be a killing blow|This weapon doesn&#39;t seem very effective|This weapon might do some damage with a lucky hit|This weapon seems quite effective|This weapon could most likely kill with a single swipe|This weapon is extremely powerful and more lethal than many of the famous weapons|With this weapon even a single warrior will be able to match a large force|This armour wouldn&#39;t even protect you from a very weak blow|This armour could perhaps reduce damage a little|This seems to be an armour of average quality|This armour would protect you very well|This is an extremely well-made armour which would protect you very well|Virtually nothing could harm you if you wore this armour|(.*) (?:in prime condition|in a fine condition|touched by battle|scarred by battle|very scarred by battle|in big need of a smith|a little worn down|in a very bad shape|in urgent need of repair|going to break any second).$
+Execute the following javascript:
+
+//Plug and Play
+
+var translator = {
+
+  //Weapon Hit Chance
+  'It is almost impossible to get a good strike with this weapon.':'[1/6]',
+  'It is difficult to use this weapon properly.':'[2/6]',
+  'It feels good when you wield this weapon--you would most likely have no trouble getting a good hit with this weapon.':'[3/6]',
+  'You should have no trouble handling this weapon--or making a cruel hit with it for that matter.':'[4/6]',
+  'Even an apprentice warrior could kill easily with this weapon.':'[5/6]',
+  'With this weapon almost every strike could be a killing blow.':'[6/6]',
+  
+  //Weapon Accuracy
+  'This weapon doesn&#39;t seem very effective.':'[1/6]',
+  'This weapon might do some damage with a lucky hit.':'[2/6]',
+  'This weapon seems quite effective.':'[3/6]',
+  'This weapon could most likely kill with a single swipe.':'[4/6]',
+  'This weapon is extremely powerful and more lethal than many of the famous weapons.':'[5/6]',
+  'With this weapon even a single warrior will be able to match a large force.':'[6/6]',
+  
+  //Armour Protection
+  'This armour wouldn&#39;t even protect you from a very weak blow.':'[1/6]',
+  'This armour could perhaps reduce damage a little.':'[2/6]',
+  'This seems to be an armour of average quality.':'[3/6]',
+  'This armour would protect you very well.':'[4/6]',
+  'This is an extremely well-made armour which would protect you very well.':'[5/6]',
+  'Virtually nothing could harm you if you wore this armour.':'[6/6]',
+  
+  //Weapon Condition
+  'in prime condition':'[7/7]',
+  'in a fine condition':'[6/7]',
+  'touched by battle':'[5/7]',
+  'scarred by battle':'[4/7]',
+  'very scarred by battle':'[3/7]',
+  'in big need of a smith':'[2/7]',
+  'going to break any second':'[1/7]',
+  
+  //Armour Condition
+  'a little worn down':'[5/4]',
+  'in a very bad shape':'[3]',
+  'in urgent need of repair':'[2]',
+}
+
+if (args[1] === 'This armour wouldn&#39;t even protect you from a very weak blow.') {
+  gwc.output.replace ("This armour wouldn't even protect you from a very weak blow.", `${args[1]} ${translator[args[1]]}`)
+}
+
+else if (args[1] === 'This weapon doesn&#39;t seem very effective.') {
+  gwc.output.replace ("This weapon doesn't seem very effective.", `${args[1]} ${translator[args[1]]}`)
+}
+
+else {
+  gwc.output.replace(args[1], args[1] + " " + translator[args[1]])
+}
