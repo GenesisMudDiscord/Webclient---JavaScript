@@ -1,7 +1,7 @@
 gwc.connection.send('s');
 gwc.connection.send('se');
 gwc.connection.send('se');
-gwc.connection.send('kg');
+gwc.connection.send('knock gate');
 gwc.connection.send('e');
 gwc.connection.send('ne');
 gwc.connection.send('e');
