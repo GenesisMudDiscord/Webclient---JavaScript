@@ -1,0 +1,148 @@
+===================================================================================================
+===================================================================================================
+SKUNK BERRY TOOL: Collection of 3 aliases, 1 trigger to prevent spontaneous combustion by eating too many skunk berries! 
+
+Author: Shanoga
+
+===================================================================================================
+===================================================================================================
+
+SKUNK BERRY ALIASES
+---------------------------------------------------------------------------------------------------
+Name:
+  sk
+---------------------------------------------------------------------------------------------------
+Pattern (JavaScript):
+
+// Initialize the current time so we know how much time is left
+// until the next time we can eat a berry
+var currentTime = new Date().getTime();
+currentTime = Math.floor(currentTime/1000);
+var timeRemaining = 300 - (currentTime - gwc.userdata.lastberry);
+var recentSkunk = 60 - (currentTime - gwc.userdata.lastberry);
+
+// If it hasn't been at least a minute since the last skunk berry
+// then we don't do anything else
+if (recentSkunk >= 0) {
+  gwc.output.append("You ate a skunk berry too recently.");
+  gwc.output.append("You can eat another skunk berry in " + recentSkunk+ " seconds.");
+  return;
+}
+
+
+// Send the command to eat the berries, unless
+// we already have eaten two, then we stop ourselves
+if (gwc.userdata.skunks === undefined) gwc.userdata.skunks = 0;
+if (gwc.userdata.lastberry === undefined || (currentTime - gwc.userdata.lastberry) >= 300) gwc.userdata.lastberry = currentTime;
+if (gwc.userdata.skunks < 2) {
+  gwc.connection.send("open qarraba");
+  gwc.connection.send("get skunk berries from qarraba");
+  gwc.connection.send("eat skunk berries");
+  gwc.userdata.lastberry = 0;
+}
+else {
+  gwc.output.append("You've already ingested " + gwc.userdata.skunks + " skunk berries.");
+  gwc.output.append("You don't want to catch fire, do you?!");
+  gwc.output.append("You can eat another skunk berry in " + timeRemaining + " seconds.");
+}
+
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+Name:
+  scheck
+---------------------------------------------------------------------------------------------------
+Pattern (JavaScript):
+
+// We start with initializing the variable that contains the number
+// of skunk berries that we have eaten. This is a failsafe in case
+// we check before actually eating any skunks.
+if (gwc.userdata.skunks === undefined) gwc.userdata.skunks = 0;
+
+// Initialize the current time so we know how much time is left
+// until the next time we can eat a berry
+var currentTime = new Date().getTime();
+currentTime = Math.floor(currentTime/1000);
+if (gwc.userdata.lastberry === undefined || (currentTime - gwc.userdata.lastberry) >= 300) gwc.userdata.lastberry = currentTime;
+var timeRemaining = 300 - (currentTime - gwc.userdata.lastberry);
+
+// Print the number of berries eaten and how much time until
+// you can eat another one
+if (gwc.userdata.skunks == 1) {
+  gwc.output.append("You have ingested " + gwc.userdata.skunks + " handful of skunk berries.");
+} else {
+  gwc.output.append("You have ingested " + gwc.userdata.skunks + " handfuls of skunk berries.");
+}
+gwc.output.color("#671FC4");
+if (gwc.userdata.skunks == 0) {
+    gwc.output.append("You can eat another skunk berry now.");
+} else {
+  gwc.output.append("You can eat another skunk berry in " + timeRemaining + " seconds.");
+}
+
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+Name:
+  sbreset
+---------------------------------------------------------------------------------------------------
+Pattern (JavaScript):
+
+// Resets the counters for number of skunks ingested as well as
+// time since last eating a berry.
+//
+// DO NOT USE unless you are NOT under the effect of any skunk berry
+// healing as it will not track properly until all skunks berries
+// have left your system and you use this command again.
+//
+gwc.userdata.skunks = 0;
+gwc.userdata.lastberry = 300;
+gwc.output.append("Skunk Berries counters RESET");
+
+===================================================================================================
+===================================================================================================
+===================================================================================================
+===================================================================================================
+
+SKUNK BERRY TRIGGER:
+---------------------------------------------------------------------------------------------------
+Type: plain
+Pattern: As you eat the purple berries, a terrible bitter taste fills your mouth
+
+---------------------------------------------------------------------------------------------------
+Script (JavaScript):
+
+// This trigger will keep a counter of the number of skunk berries
+// that you have eaten as well as the amount of time since
+// you last ate a handful of skunk berries. Feel free to mess
+// around with or eliminate the gwc.output.append lines if you
+// don't like them.
+
+// We start with initializing the variable that contains the number
+// of skunk berries that we have eaten. This is really only needed
+// the first time that the script runs.
+if (gwc.userdata.skunks === undefined) gwc.userdata.skunks = 0;
+
+// Capture the time that this script runs, when you ate the berries
+var currentTime = new Date().getTime();
+currentTime = Math.floor(currentTime/1000);
+gwc.userdata.lastberry = currentTime;
+
+// Increment the number of berries that we've eaten
+gwc.userdata.skunks++;
+
+// This function decrements the number of skunk berries and tells
+// you how many are in your system when it fades.
+function fade() {
+  gwc.userdata.skunks--;
+  gwc.output.append("You have ingested " + gwc.userdata.skunks + " skunk berries.");
+}
+setTimeout(fade,300001);
+
+
+// Lastly, display how many have been eaten in a purple colour
+if (gwc.userdata.skunks == 1) {
+  gwc.output.append("You have ingested " + gwc.userdata.skunks + " handful of skunk berries.");
+}
+else {
+  gwc.output.append("You have ingested " + gwc.userdata.skunks + " handfuls of skunk berries.");
+}
+gwc.output.color("#671FC4");
