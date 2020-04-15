@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-from celse
-=======
-+test by melon
->>>>>>> 12856589f23dfb3bfb3980b3191cc454d2b647f9
