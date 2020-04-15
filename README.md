@@ -1,6 +1,7 @@
 ***!!! General Concept !!!***
 
 `MASTER Branch`
+
     Store all the
     REVIEWED - Currently not needed, don't be bad boi :P
     TESTED - you sure there are no bug or unneeded command execute? Don't be me!
@@ -8,6 +9,7 @@
     FRIENDLY - manuals and comments, for use and spreading of brain wrinkles!
 
 `YOUR Branch`
+
     Where you
     STORE - your own scripts!
     FIX - bugs on Master Branch!
@@ -16,14 +18,17 @@
     DON'T - jinx other's branch. LOL
 
 `REVIEW Branch`
+
     For scripts that you would like others to review before merge into Master,
     push them here and make a Pull Request!
 
 `PULLING`
+
     Sync the repo to your machine, for local work!
     and to be distinguished with
 
 `PULL REQUEST`
+
     So you made a perfect autopilot, go to sleep, went to jail,
     now feel lonely and wants more jail mates? Perfect, submit your
     bot and lets go to jail together!
@@ -40,6 +45,7 @@
     we are all in this together!
 
 `FORK repo`
+
     For yer seadog lootin our booty! No walk da plank for ya!
 
     Clone entire repo (all branches) to
