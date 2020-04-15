@@ -1,4 +1,12 @@
-***!!! General Concept !!!***
+***!!! Official GitHub Announcement !!!***
+
+***Accessing***
+
+    Our open public GitHub at: https://github.com/GenesisMudDiscord
+    To request membership for contributing, drop message on Discord with your GitHub name!
+    Accept our invitation at: https://github.com/orgs/GenesisMudDiscord/invitation
+
+***General Concept***
 
 `MASTER Branch`
 
