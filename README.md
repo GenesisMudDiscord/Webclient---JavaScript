@@ -2,9 +2,9 @@
 
 ***Accessing***
 
-    Our open public GitHub at: https://github.com/GenesisMudDiscord
+    Our open public GitHub at: (https://github.com/GenesisMudDiscord)
     To request membership for contributing, drop message on Discord with your GitHub name!
-    Accept our invitation at: https://github.com/orgs/GenesisMudDiscord/invitation
+    Accept our invitation at: (https://github.com/orgs/GenesisMudDiscord/invitation)
 
 ***General Concept***
 
@@ -32,7 +32,8 @@
 
 `PULLING`
 
-    Sync the repo to your machine, for local work!
+    Relative term, mean [base] PULL data from [remote] for syncing.
+    [base] & [remote] could be a repo, a fork, a branch, etc.
     and to be distinguished with
 
 `PULL REQUEST`
@@ -44,7 +45,7 @@
     When you wants to submit something into MASTER Branch
     from your own FORK or YOUR Branch,
     make a Request and everyone will review for Merging!
-    aka pull it into our MASTER Branch, hence Pull Request!
+    aka REQUEST [remote] PULL data from your [base], hence Pull Request!
     Thank you very much for your contribution!
 
     Reviewers (could be you too!) have to spends their time to read your code,
