@@ -41,6 +41,8 @@ Changelog:
 Removed linkdead alias as all reconnect issues should be resolved. Added <showkills>
 alias and team_update trigger. All aliases and triggers must be updated for this
 release.
+20200416: Fixed bug in regular expression for team update trigger which failed in
+this situation: You are the leader of your team. The members are Sophialil and Allistar. The team is instructed to stay put.
 
 Manifest:
 =========
@@ -353,7 +355,7 @@ TEAM RESET TRIGGER
 ---------------------------------------------------------------------------------------------------
 Name: Team reset trigger
 Type: regexp
-Pattern: ^The leader of your team is (\w+). (The other member is (\w+).|You are the only member.|The other members are (.*).)$|^You are the leader of your team. The members are (.*).$|^You are not in a team.$
+Pattern: ^The leader of your team is (\w+). (The other member is (\w+).|You are the only member.|The other members are (.*).)|^You are the leader of your team. The members are (.*).|^You are not in a team.$
 ---------------------------------------------------------------------------------------------------
 Pattern (JavaScript):
 
