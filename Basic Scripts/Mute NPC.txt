@@ -1,0 +1,12 @@
++==============================================================================+
+| DESCRIPTION: Disable NPC chatter in communication window                     |
+| MANIFEST: 1 Alias                                                            |
+| AUTHOR: Kelrhys                                                              |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
+Pattern: mutenpc
+Execute the following javascript:
+
+mud.Process.outgoing_gmcp("core.options", {"npc_comms" : "off"});
+gwc.output.append('NPC comms muted');

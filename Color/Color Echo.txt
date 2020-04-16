@@ -1,10 +1,11 @@
 +==============================================================================+
 | DESCRIPTION: For coloring player's input echo                                |
 | MANIFEST: 1 Alias                                                            |
+| AUTHOR: Celse                                                                |
 | USAGE:                                                                       |
 |                                                                              |
-| echocolor X - Replace X with color name <green> or color hex <#008B8B;>      |
-| Example: <echocolor green> <echocolor #008B8B;>                              |
+| echocolor X - Replace X with color name <darkcyan> or color hex <#008B8B;>   |
+| Example: <echocolor darkcyan> <echocolor #008B8B;>                           |
 +==============================================================================+
 
 Pattern: echocolor

@@ -1,0 +1,65 @@
++==============================================================================+
+| DESCRIPTION: Translates equipment's sminspect and durability to number       |
+| MANIFEST: 1 Trigger                                                          |
+| AUTHOR: Timothy                                                              |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
+Type: regexp
+Pattern:
+
+^(It is almost impossible to get a good strike with this weapon|It is difficult to use this weapon properly|It feels good when you wield this weapon--you would most likely have no trouble getting a good hit with this weapon|You should have no trouble handling this weapon--or making a cruel hit with it for that matter|Even an apprentice warrior could kill easily with this weapon|With this weapon almost every strike could be a killing blow|This weapon doesn&#39;t seem very effective|This weapon might do some damage with a lucky hit|This weapon seems quite effective|This weapon could most likely kill with a single swipe|This weapon is extremely powerful and more lethal than many of the famous weapons|With this weapon even a single warrior will be able to match a large force|This armour wouldn&#39;t even protect you from a very weak blow|This armour could perhaps reduce damage a little|This seems to be an armour of average quality|This armour would protect you very well|This is an extremely well-made armour which would protect you very well|Virtually nothing could harm you if you wore this armour|It looks like it is in prime condition|It looks like it is in a fine condition|It looks like it is touched by battle|It looks like it is scarred by battle|It looks like it is very scarred by battle|It looks like it is in big need of a smith|It looks like it is a little worn down|It looks like it is in a very bad shape|It looks like it is in urgent need of repair|It looks like it is going to break any second).$
+
+Execute the following javascript:
+
+//DECLARE SHORTHAND FOR LESS TYPING
+const a0 = args[0], a1 = args[1]
+
+//ASSIGN STRING ANG THEIR VALUE
+const translator = {
+
+  //WEAPON HIT CHANCE
+  'It is almost impossible to get a good strike with this weapon':'[1/6]',
+  'It is difficult to use this weapon properly':'[2/6]',
+  'It feels good when you wield this weapon--you would most likely have no trouble getting a good hit with this weapon':'[3/6]',
+  'You should have no trouble handling this weapon--or making a cruel hit with it for that matter':'[4/6]',
+  'Even an apprentice warrior could kill easily with this weapon':'[5/6]',
+  'With this weapon almost every strike could be a killing blow':'[6/6]',
+
+  //WEAPON ACCURACY
+  'This weapon doesn&#39;t seem very effective':'[1/6]',
+  'This weapon might do some damage with a lucky hit':'[2/6]',
+  'This weapon seems quite effective':'[3/6]',
+  'This weapon could most likely kill with a single swipe':'[4/6]',
+  'This weapon is extremely powerful and more lethal than many of the famous weapons':'[5/6]',
+  'With this weapon even a single warrior will be able to match a large force':'[6/6]',
+
+  //ARMOUR PROTECTION
+  'This armour wouldn&#39;t even protect you from a very weak blow':'[1/6]',
+  'This armour could perhaps reduce damage a little':'[2/6]',
+  'This seems to be an armour of average quality':'[3/6]',
+  'This armour would protect you very well':'[4/6]',
+  'This is an extremely well-made armour which would protect you very well':'[5/6]',
+  'Virtually nothing could harm you if you wore this armour':'[6/6]',
+
+  //WEAPON CONDITION
+  'It looks like it is in prime condition':'[7/7]',
+  'It looks like it is in a fine condition':'[6/7]',
+  'It looks like it is touched by battle':'[5/7]',
+  'It looks like it is scarred by battle':'[4/7]',
+  'It looks like it is very scarred by battle':'[3/7]',
+  'It looks like it is in big need of a smith':'[2/7]',
+  'It looks like it is going to break any second':'[1/7]',
+
+  //ARMOUR CONDITION
+  'It looks like it is a little worn down':'[4/5]',
+  'It looks like it is in a very bad shape':'[3/5]',
+  'It looks like it is in urgent need of repair':'[2/5]',
+}
+
+//APPEND STRING WITH VALUE THROUGH REPLACE & ADDRESS SOME SPECIAL CASES
+switch (a1) {
+  case 'This armour wouldn&#39;t even protect you from a very weak blow' : gwc.output.replace ("This armour wouldn't even protect you from a very weak blow.", `${a1}. ${translator[a1]}`) ; break
+  case 'This weapon doesn&#39;t seem very effective'                     : gwc.output.replace ("This weapon doesn't seem very effective.", `${a1}. ${translator[a1]}`) ; break
+  default                                                                : gwc.output.replace (a0, `${a1}. ${translator[a1]}`)
+}

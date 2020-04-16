@@ -1,16 +1,13 @@
 +==============================================================================+
 | DESCRIPTION: Trigger for automatically firing minors chain                   |
-| TYPE: Trigger and Alias                                                      |
+| MANIFEST: 1 Trigger and 1 Alias                                              |
+| AUTHOR: Celse                                                                |
 | USAGE:                                                                       |
 |                                                                              |
 |       First time use? Run the alias once to creates needed variables         |
-|       Default spells are magicMissile, ballisticSpray, prismaticSpray        |
-|       You can change it other spells like fireDart and acidArrow             |
-|       Spell fires following order, spellMinor_1 will fires first and so on   |
-|       Otherwise Plug and Play                                                |
+|       Default spells <magicMissile> <ballisticSpray> <prismaticSpray>        |
+|       You can change it to other spells like <fireDart> and <acidArrow>      |
 +==============================================================================+
-
-======
 
 Trigger Name: Offensive Minors
 Type: regexp
@@ -20,6 +17,8 @@ Execute the following javascript:
 /*jshint ignore:start*/
 
 var a0 = args[0], d = gwc.userdata, COMBAT = d.spell.combat,
+
+    //YOU CAN MODIFY THESE TO CHANGE ORDER AND SPELL
     spellMinor_1 = d.spell.database.magicMissile,
     spellMinor_2 = d.spell.database.ballisticSpray,
     spellMinor_3 = d.spell.database.prismaticSpray;

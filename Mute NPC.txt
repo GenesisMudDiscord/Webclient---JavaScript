@@ -1,7 +1,0 @@
-Pattern: mutenpc
-Execute the following javascript:
-
-//Plug and Play alias, disable NPC chatter in communication window 
-
-mud.Process.outgoing_gmcp("core.options", {"npc_comms" : "off"});
-gwc.output.append('NPC comms muted');
