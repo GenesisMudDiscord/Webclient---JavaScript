@@ -1,0 +1,57 @@
++==============================================================================+
+| DESCRIPTION: Color and Translate blacksmith sminspect                        |
+| MANIFEST: 1 Trigger                                                          |
+| AUTHOR: Celse                                                                |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
+Type: regexp
+Pattern:
+
+^(?:It is almost impossible to get a good strike with this weapon|It is difficult to use this weapon properly|It feels good when you wield this weapon--you would most likely have no trouble getting a good hit with this weapon|You should have no trouble handling this weapon--or making a cruel hit with it for that matter|Even an apprentice warrior could kill easily with this weapon|With this weapon almost every strike could be a killing blow|This weapon doesn&#39;t seem very effective|This weapon might do some damage with a lucky hit|This weapon seems quite effective|This weapon could most likely kill with a single swipe|This weapon is extremely powerful and more lethal than many of the famous weapons|With this weapon even a single warrior will be able to match a large force|This armour wouldn&#39;t even protect you from a very weak blow|This armour could perhaps reduce damage a little|This seems to be an armour of average quality|This armour would protect you very well|This is an extremely well-made armour which would protect you very well|Virtually nothing could harm you if you wore this armour).$
+
+Execute the following javascript:
+
+//DECLARE CONST FOR LESS TYPING
+const a0 = args[0]
+
+//ASSIGN STRING WITH VALUE
+const WeaponAccuracy = {
+  'It is almost impossible to get a good strike with this weapon.':'[1/6]',
+  'It is difficult to use this weapon properly.':'[2/6]',
+  'It feels good when you wield this weapon--you would most likely have no trouble getting a good hit with this weapon.':'[3/6]',
+  'You should have no trouble handling this weapon--or making a cruel hit with it for that matter.':'[4/6]',
+  'Even an apprentice warrior could kill easily with this weapon.':'[5/6]',
+  'With this weapon almost every strike could be a killing blow.':'[6/6]'
+}
+const WeaponDamage = {
+  'This weapon doesn&#39;t seem very effective.':'[1/6]',
+  'This weapon might do some damage with a lucky hit.':'[2/6]',
+  'This weapon seems quite effective.':'[3/6]',
+  'This weapon could most likely kill with a single swipe.':'[4/6]',
+  'This weapon is extremely powerful and more lethal than many of the famous weapons.':'[5/6]',
+  'With this weapon even a single warrior will be able to match a large force.':'[6/6]'
+}
+const ArmourProtection = {
+  'This armour wouldn&#39;t even protect you from a very weak blow.':'[1/6]',
+  'This armour could perhaps reduce damage a little.':'[2/6]',
+  'This seems to be an armour of average quality.':'[3/6]',
+  'This armour would protect you very well.':'[4/6]',
+  'This is an extremely well-made armour which would protect you very well.':'[5/6]',
+  'Virtually nothing could harm you if you wore this armour.':'[6/6]'
+}
+
+//APPEND STRING WITH VALUE
+switch (true) {
+  
+  //SPECIAL CASES
+  case a0 === 'This weapon doesn&#39;t seem very effective.'                     : gwc.output.replace ("This weapon doesn't seem very effective."                    , `<span style="color:slateblue">${a0} ${WeaponDamage[a0]}</span>`    ) ; break
+  case a0 === 'This armour wouldn&#39;t even protect you from a very weak blow.' : gwc.output.replace ("This armour wouldn't even protect you from a very weak blow.", `<span style="color:steelblue">${a0} ${ArmourProtection[a0]}</span>`) ; break
+  
+  //CHECK IF STRING EXIST IN SPECIFIC LIST, THEN COLOR ACCORDINGLY
+  default:
+  case a0 in WeaponAccuracy   : gwc.output.replace (a0, `<span style="color:pink"     >${a0} ${WeaponAccuracy[a0]}</span>`  ) ; break
+  case a0 in WeaponDamage     : gwc.output.replace (a0, `<span style="color:slateblue">${a0} ${WeaponDamage[a0]}</span>`    ) ; break
+  case a0 in ArmourProtection : gwc.output.replace (a0, `<span style="color:steelblue">${a0} ${ArmourProtection[a0]}</span>`) ; break
+
+}

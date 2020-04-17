@@ -1,5 +1,5 @@
 +==============================================================================+
-| DESCRIPTION: Translates imbuements to functionality and stone name           |
+| DESCRIPTION: Color and Translate imbuement                                   |
 | MANIFEST: 1 Trigger                                                          |
 | AUTHOR: Kelrhys                                                              |
 | USAGE: Plug & Play                                                           |
