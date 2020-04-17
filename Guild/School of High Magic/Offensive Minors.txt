@@ -1,0 +1,98 @@
++==============================================================================+
+| DESCRIPTION: Trigger for automatically firing minors chain                   |
+| MANIFEST: 1 Trigger and 1 Alias                                              |
+| AUTHOR: Celse                                                                |
+| USAGE:                                                                       |
+|                                                                              |
+| First time use? Run the alias once to creates needed data                    |
+| Default spells are <magicMissile> <ballisticSpray> <prismaticSpray>          |
+| Can change to other spells like <fireDart> and <acidArrow>                   |
++==============================================================================+
+
+Trigger Name: Offensive Minors
+Type: regexp
+Pattern:
+
+^(?:You close your eyes and begin reciting from memory powerful words of magic, &#39;(?:Arcanis vaes|Tonash ingis|Bakmada Ingis|Api Anak|Uveluca Vaes)!&#39;|(?:You extend your hand with fingers fanning outwards, your palm directed|You thrust a closed fist|You point a crooked finger|With a flick your wrist you make an arcane gesture towards|You hurl your open hands) towards (.*)(?:, opening your hand as your arm reaches full extension)?.|You fail in your efforts to invoke the spell.|You feel ready to (?:conjure|cast) (?:a magic missile|a spray of ballistics|prismatic spray|a fire dart|an acid arrow) again.)$
+
+Execute the following javascript:
+
+const a0 = args[0], d = gwc.userdata, COMBAT = d.spell.combat,
+
+    //DECLARE LOCAL CONSTANTS FOR SPELL FROM DATABASE, FOR MODIFIABLE LOADOUT AND LESS TYPING
+    spellMinor_1 = d.spell.database.magicMissile,
+    spellMinor_2 = d.spell.database.ballisticSpray,
+    spellMinor_3 = d.spell.database.prismaticSpray,
+
+    //BUILD REGEXP ON-THE-FLY FROM STRING IN DATABASE FOR PLUG & PLAY
+    stringCasting_1  = new RegExp (spellMinor_1.stringCasting)  , stringCasting_2  = new RegExp (spellMinor_2.stringCasting)  , stringCasting_3  = new RegExp (spellMinor_3.stringCasting),
+    stringSuccess_1  = new RegExp (spellMinor_1.stringSuccess)  , stringSuccess_2  = new RegExp (spellMinor_2.stringSuccess)  , stringSuccess_3  = new RegExp (spellMinor_3.stringSuccess),
+    stringCooldown_1 = new RegExp (spellMinor_1.stringCooldown) , stringCooldown_2 = new RegExp (spellMinor_1.stringCooldown) , stringCooldown_3 = new RegExp (spellMinor_1.stringCooldown);
+
+switch ( true ) {
+
+  //CASTING
+  case stringCasting_1.test (a0)  : COMBAT.castingDelay = false ; COMBAT.minorCooldown_1 = false ; break
+  case stringCasting_2.test (a0)  : COMBAT.castingDelay = false ; COMBAT.minorCooldown_2 = false ; break
+  case stringCasting_3.test (a0)  : COMBAT.castingDelay = false ; COMBAT.minorCooldown_3 = false ; break
+
+  //SUCCESS
+  case stringSuccess_1.test (a0)  : send ('health enemy') ; COMBAT.castingDelay = true ; if (COMBAT.minorCooldown_2) { send (spellMinor_2.nameRune) } else if (COMBAT.minorCooldown_3) { send (spellMinor_3.nameRune) } break
+  case stringSuccess_2.test (a0)  : send ('health enemy') ; COMBAT.castingDelay = true ; if (COMBAT.minorCooldown_1) { send (spellMinor_1.nameRune) } else if (COMBAT.minorCooldown_3) { send (spellMinor_3.nameRune) } break
+  case stringSuccess_3.test (a0)  : send ('health enemy') ; COMBAT.castingDelay = true ; if (COMBAT.minorCooldown_1) { send (spellMinor_1.nameRune) } else if (COMBAT.minorCooldown_2) { send (spellMinor_2.nameRune) } break
+
+  //FAILURE 
+  case /^You fail in your efforts to invoke the spell\.$/.test (a0) : COMBAT.castingDelay = true ; 
+    switch (true) { 
+      case COMBAT.minorCooldown_1 : send (spellMinor_1.nameRune) ; COMBAT.castingDelay = false ; break
+      case COMBAT.minorCooldown_2 : send (spellMinor_2.nameRune) ; COMBAT.castingDelay = false ; break
+      case COMBAT.minorCooldown_3 : send (spellMinor_3.nameRune) ; COMBAT.castingDelay = false ; break 
+    } break
+
+  //COOLDOWN
+  case stringCooldown_1.test (a0) : if (COMBAT.castingDelay) { COMBAT.minorCooldown_1 = true ; send (spellMinor_1.nameRune) } else { COMBAT.minorCooldown_1 = true } break
+  case stringCooldown_2.test (a0) : if (COMBAT.castingDelay) { COMBAT.minorCooldown_2 = true ; send (spellMinor_2.nameRune) } else { COMBAT.minorCooldown_2 = true } break
+  case stringCooldown_3.test (a0) : if (COMBAT.castingDelay) { COMBAT.minorCooldown_3 = true ; send (spellMinor_3.nameRune) } else { COMBAT.minorCooldown_3 = true } break
+
+}
+
+======
+
+Alias Pattern: first_time_use_initialize
+Execute the following javascript:
+
+//CONSTRUCTOR FOR CREATES SPELL DATABASE
+function Spell (nameCommon, nameRune, primaryElement, primarySkill, listComponent, spellType, spellCategory, spellTarget, stringCasting, stringSuccess, stringHit, stringCooldown) {
+  this.nameCommon = nameCommon
+  this.nameRune = nameRune
+  this.primaryElement = primaryElement
+  this.primarySkill = primarySkill
+  this.listComponent = [listComponent]
+  this.spellType = spellType
+  this.spellCategory = spellCategory
+  this.spellTarget = spellTarget
+  this.stringCasting = stringCasting
+  this.stringSuccess = stringSuccess
+  this.stringHit = stringHit
+  this.stringCooldown = stringCooldown
+}
+
+const d = gwc.userdata
+d.spell = {}
+
+//SPELL STATUS FOR COMBAT
+d.spell.combat = {}
+d.spell.combat.castingDelay    = true
+d.spell.combat.minorCooldown_1 = true
+d.spell.combat.minorCooldown_2 = true
+d.spell.combat.minorCooldown_3 = true
+
+//SPEL DATABASE BUILD WITH CONSTRUCTOR
+d.spell.database = {}
+d.spell.database.magicMissile   = new Spell ('magicmissile','arcanisvaes','air','conjuration',null,'at will','minor','enemy',"^You close your eyes and begin reciting from memory powerful words of magic, &#39;Arcanis vaes!&#39;$","^You extend your hand with fingers fanning outwards, your palm directed towards (.*).$","^(?:A bolt of magical energy slams in to (.*) crushing (.*) (.*) painfully|Three bolts of magical energy violently smash into (.*) of (.*), causing incredible damage|Three bolts of magical energy explode in to (.*), devastating (.*) (.*) and causing grievous damage)\.$","^You feel ready to conjure a magic missile again\.$")
+d.spell.database.prismaticSpray = new Spell ('prismaticspray','bakmadaingis','water','illusion',null,'at will','minor','enemy',"^You close your eyes and begin reciting from memory powerful words of magic, &#39;Bakmada Ingis!&#39;$","^You point a crooked finger towards (.*).$","^(?:A beam of multicoloured light (.*) in (.*), causing numbing pain|A prismatic beam of light smashes in to (.*) radiating pain through (.*) (.*)|A prismatic beam of light explodes in to (.*) in a kaleidoscope of colours, causing excrutiating pain throughout (.*) body|A prismatic beam of light explodes in to (.*), fatally overloading (.*) senses with radiating pain).$","^You feel ready to cast prismatic spray again.$")
+d.spell.database.ballisticSpray = new Spell ('ballisticspray','tonashingis','earth','conjuration',null,'at will','minor','enemy',"^You close your eyes and begin reciting from memory powerful words of magic, &#39;Tonash ingis!&#39;$","^You thrust a closed fist towards (.*), opening your hand as your arm reaches full extension.$","^(?:Charged projectiles slam in to (.*), crushing (.*) (.*) painfully|Many summoned projectiles violently smash into (.*) of (.*), causing incredible damage|Many summoned projectiles explode in to (.*), devastating (.*) (.*) and causing grievous damage).$","^You feel ready to conjure a spray of ballistics again.$")
+d.spell.database.fireDart       = new Spell ('firedart','apianak','fire','conjuration',null,'at will','minor','enemy',"^You close your eyes and begin reciting from memory powerful words of magic, &#39;Api Anak!&#39;$","^With a flick your wrist you make an arcane gesture towards (.*).$","^(?:A fiery dart explodes in to (.*) burning (.*) (.*) painfully|A fiery dart explodes into (.*), roasting (.*) (.*) and causing incredible damage|A seething bolt of fire explodes into (.*), engulfing (.*) (.*) and causing fatal damage)\.$","^You feel ready to conjure a fire dart again.$")
+d.spell.database.acidArrow      = new Spell ('acidarrow','uvelucavaes','water','conjuration',null,'at will','minor','enemy',"^You close your eyes and begin reciting from memory powerful words of magic, &#39;Uveluca Vaes!&#39;$","^You hurl your open hands towards (.*).$","^(?:An arrow of acid explodes in to (.*), blistering (.*) (.*) painfully|A caustic acid arrow explodes into (.*), causing painful burns and blackening (.*) (.*)|A seething arrow of acid explodes in to (.*), fatally burning away flesh and tissue from (.*) (.*) and dissolving (.*) bones).$","^You feel ready to conjure an acid arrow again.$")
+
+======
