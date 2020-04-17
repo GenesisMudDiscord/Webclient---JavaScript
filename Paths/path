@@ -1,0 +1,5 @@
+/*jshint ignore:start*/
+if(!gwc.userdata.path_object){
+	gwc.connection.send('setup_paths', true);
+}
+gwc.userdata.path_object[args[1]].map(mapOutput => gwc.connection.send(mapOutput) );

@@ -1,0 +1,5 @@
+const path_object = {
+	bree_shaws : ['bree_shaws', 's', 'se', 'se', 'knock gate', 'e', 'ne', 'e', 'e', 'e', 'se', 'e', 'se', 'e', 'e', 'e', 'e', 'se', 'ne', 'e', 'ne', 'e', 'e', 'ne', 'e', 'e', 'ne', 'e', 'ne', 'e', 'e', 'e', 'ne', 'e', 'e', 'e', 'se', 'e', 'e', 'se', 'e', 'se', 'se', 'se', 'se', 'e', 'ne', 'e', 'n', 'n'],
+	shaws_bree: ['s', 's', 'w', 'sw', 'w', 'nw', 'nw', 'nw', 'nw', 'w', 'nw', 'w', 'w', 'nw', 'w', 'w', 'w', 'sw', 'w', 'w', 'w', 'sw', 'w', 'sw', 'w', 'w', 'sw', 'w', 'w', 'sw', 'w', 'sw', 'nw', 'w', 'w', 'w', 'w', 'nw', 'w', 'nw', 'w', 'w', 'w', 'sw', 'knock gate', 'w', 'nw', 'e', 'nw', 'nw', 'n']
+}
+gwc.userdata.path_object = path_object;

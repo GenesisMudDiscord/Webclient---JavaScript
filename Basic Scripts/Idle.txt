@@ -1,0 +1,29 @@
++==============================================================================+
+| DESCRIPTION: For idling                                                      |
+| MANIFEST: 1 Alias                                                            |
+| AUTHOR: Kelrhys                                                              |
+| USAGE:                                                                       |
+|                                                                              |
+| idle on/off - On/off idle                                                    |
+| idle        - Equivalent of <idle off>                                       |
+|                                                                              |
+| NOTE:                                                                        |
+|                                                                              |
+| Default behavior is to disable unless on specified to avoid                  |
+| orphaned idle_id's which will continue to execute and cannot                 |
+| be cleared until session is exited.                                          |
++==============================================================================+
+
+Pattern: idle
+Execute the following javascript:
+
+if (args[1] == 'on') {
+  gwc.userdata.idle_id = 
+    setInterval(function() {gwc.connection.send("yawn"); }, 1000*60*10);
+  gwc.output.append('Enabled idle id: ' + gwc.userdata.idle_id);
+} 
+
+else {
+  gwc.output.append('Disabled idle id: ' + gwc.userdata.idle_id);
+  clearInterval(gwc.userdata.idle_id);
+}

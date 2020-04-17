@@ -1,12 +1,19 @@
-======================================================================================
-IMBUE TRANSLATION TRIGGER
-Please let me know if you find any typos or bugs! -Kelrhys
-======================================================================================
++==============================================================================+
+| DESCRIPTION: Color and Translate imbuement                                   |
+| MANIFEST: 1 Trigger                                                          |
+| AUTHOR: Kelrhys                                                              |
+| USAGE: Plug & Play                                                           |
+| NOTE: Please let me know if you find any typos or bugs!                      |
++==============================================================================+
+
 Type: regexp
-Pattern: (smell of musk|smell of vanilla|smell of alcohol|smell of lavender|smell of sage|smell of cinnamon|opalesque tint|grey tint|brown tint|blue tint|azure tint|rose tint|aura of a stallion|aura of a lion|aura of a spider|aura of a boar|aura of a badger|aura of a monkey|Beryl formations|Bone formations|Diamond formations|Granite formations|Ivory formations|Mithril formations|Onyx formations|Peridot formations|Quartz formations|Sapphire formations|Topaz formations|aura of light surrounds|aura of darkness surrounds|aura of crimson energy|aura of well-being|aura of viciousness|aura of malevolence|feeling of unease|goosebumps being around|urge to sneeze|dull feeling comes over you|tickle in your throat|feeling of calm|ringing in your ears|itching sensation|hair-raising sensation grips you|feeling of nausea|feeling of drowsiness|clusters of frost cling|disturbance in the air surrounding|hissing sound|colour seems to be occuring|acid sheen|green moisture|odor of decay|white flames|ripples of blue electricty|feeling of security emanates|sparkle bewitches your senses|orange glow surrounds|gleam of mithril coat|whine is coming|drone issues from this|clicking sound|purring sound|silvery aura|purple gleam|swirling bands of yellow energy)
+Pattern:
+
+(smell of musk|smell of vanilla|smell of alcohol|smell of lavender|smell of sage|smell of cinnamon|opalesque tint|grey tint|brown tint|blue tint|azure tint|rose tint|aura of a stallion|aura of a lion|aura of a spider|aura of a boar|aura of a badger|aura of a monkey|Beryl formations|Bone formations|Diamond formations|Granite formations|Ivory formations|Mithril formations|Onyx formations|Peridot formations|Quartz formations|Sapphire formations|Topaz formations|aura of light surrounds|aura of darkness surrounds|aura of crimson energy|aura of well-being|aura of viciousness|aura of malevolence|feeling of unease|goosebumps being around|urge to sneeze|dull feeling comes over you|tickle in your throat|feeling of calm|ringing in your ears|itching sensation|hair-raising sensation grips you|feeling of nausea|feeling of drowsiness|clusters of frost cling|disturbance in the air surrounding|hissing sound|colour seems to be occuring|acid sheen|green moisture|odor of decay|white flames|ripples of blue electricty|feeling of security emanates|sparkle bewitches your senses|orange glow surrounds|gleam of mithril coat|whine is coming|drone issues from this|clicking sound|purring sound|silvery aura|purple gleam|swirling bands of yellow energy)
 
 Execute the following javascript:
-  var translator = {
+
+const translator = {
   'smell of musk':'[+str/ogrestone]',
   'smell of vanilla':'[+dis/steelstone]',
   'smell of alcohol':'[+con/dwarfstone]',
@@ -76,4 +83,3 @@ Execute the following javascript:
 };
 
 gwc.output.replace(args[1],'<span style="color:skyblue">'+args[1] + " " + translator[args[1]]+'</span>',true);
-
