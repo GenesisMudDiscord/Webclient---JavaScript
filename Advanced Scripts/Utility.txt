@@ -1,6 +1,7 @@
 +==============================================================================+
 | DESCRIPTION: Library of basic functions & aliases for quick coding & utility |
-| TYPE: Alias                                                                  |
+| MANIFEST: 1 Alias                                                            |
+| AUTHOR: Celse                                                                |
 | USAGE:                                                                       |
 |                                                                              |
 |       First time use? Run the following once to creates needed variables:    |
