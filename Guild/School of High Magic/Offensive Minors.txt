@@ -27,7 +27,7 @@ const a0 = args[0], d = gwc.userdata, send = gwc.connection.send, COMBAT = d.spe
     //BUILD REGEXP ON-THE-FLY FROM STRING IN DATABASE FOR PLUG & PLAY
     stringCasting_1  = new RegExp (spellMinor_1.stringCasting)  , stringCasting_2  = new RegExp (spellMinor_2.stringCasting)  , stringCasting_3  = new RegExp (spellMinor_3.stringCasting),
     stringSuccess_1  = new RegExp (spellMinor_1.stringSuccess)  , stringSuccess_2  = new RegExp (spellMinor_2.stringSuccess)  , stringSuccess_3  = new RegExp (spellMinor_3.stringSuccess),
-    stringCooldown_1 = new RegExp (spellMinor_1.stringCooldown) , stringCooldown_2 = new RegExp (spellMinor_1.stringCooldown) , stringCooldown_3 = new RegExp (spellMinor_1.stringCooldown);
+    stringCooldown_1 = new RegExp (spellMinor_1.stringCooldown) , stringCooldown_2 = new RegExp (spellMinor_2.stringCooldown) , stringCooldown_3 = new RegExp (spellMinor_3.stringCooldown);
 
 switch ( true ) {
 
