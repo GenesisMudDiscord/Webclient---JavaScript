@@ -17,7 +17,7 @@ Pattern:
 
 Execute the following javascript:
 
-const a0 = args[0], d = gwc.userdata, COMBAT = d.spell.combat,
+const a0 = args[0], d = gwc.userdata, send = gwc.connection.send, COMBAT = d.spell.combat,
 
     //DECLARE LOCAL CONSTANTS FOR SPELL FROM DATABASE, FOR MODIFIABLE LOADOUT AND LESS TYPING
     spellMinor_1 = d.spell.database.magicMissile,
