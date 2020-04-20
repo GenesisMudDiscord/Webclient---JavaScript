@@ -1,0 +1,36 @@
++==============================================================================+
+| DESCRIPTION: Buttons for mobile                                              |
+| MANIFEST: 1 Alias                                                            |
+| AUTHOR: Celse                                                                |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
+Pattern: enable_button
+Execute the following javascript:
+
+/*jshint ignore:start*/
+function constructButton (buttonId, positionBottom, positionLeft, displayText, clickCommand)
+{
+  let tempElement = document.createElement('button')
+  tempElement.setAttribute('id',buttonId)
+  document.querySelector("#main > div.output-wrapper").appendChild(tempElement)
+  let Button = document.getElementById(buttonId)
+  Button.style = `position: absolute; bottom: ${positionBottom}; left: ${positionLeft}; width: 20%; height: 10%; background: transparent; color: rgba(255, 255, 255, 0.7); border: none;`
+  Button.innerText = displayText
+  Button.onclick = () => eval(clickCommand)
+}
+
+const 
+      buttonNorth     = new constructButton ('buttonNorth', '55%', '40%', '↑', "gwc.connection.send('north')"),
+      buttonNorthEast = new constructButton ('buttonNorthEast', '55%', '60%', '↗', "gwc.connection.send('northeast')"),
+      buttonEast      = new constructButton ('buttonEast', '45%', '60%', '→', "gwc.connection.send('east')"),
+      buttonSouthEast = new constructButton ('buttonSouthEast', '35%', '60%', '↘', "gwc.connection.send('southeast')"),
+      buttonSouth     = new constructButton ('buttonSouth', '35%', '40%', '↓', "gwc.connection.send('south')"),
+      buttonSouthWest = new constructButton ('buttonSouthWest', '35%', '20%', '↙', "gwc.connection.send('southwest')"),
+      buttonWest      = new constructButton ('buttonWest', '45%', '20%', '←', "gwc.connection.send('west')"),
+      buttonNorthWest = new constructButton ('buttonNorthWest', '55%', '20%', '↖', "gwc.connection.send('northwest')"),
+      buttonMap       = new constructButton ('buttonMap', '45%', '40%', '▩', "gwc.output.append(mud.gmcp['room.map'].map)"),
+      buttonUp        = new constructButton ('buttonUp', '55%', '80%', '⇞', "gwc.connection.send('up')"),
+      buttonDown      = new constructButton ('buttonDown', '35%', '80%', '⇟', "gwc.connection.send('down')"),
+      buttonIn        = new constructButton ('buttonIn', '55%', '0%', '↪', "gwc.connection.send('in')"),
+      buttonOut       = new constructButton ('buttonOut', '35%', '0%', '↩', "gwc.connection.send('out')")
