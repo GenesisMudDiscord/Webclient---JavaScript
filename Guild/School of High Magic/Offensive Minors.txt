@@ -13,7 +13,7 @@ Trigger Name: Offensive Minors
 Type: regexp
 Pattern:
 
-^(?:You close your eyes and begin reciting from memory powerful words of magic, &#39;(?:Arcanis vaes|Tonash ingis|Bakmada Ingis|Api Anak|Uveluca Vaes)!&#39;|(?:You extend your hand with fingers fanning outwards, your palm directed|You thrust a closed fist|You point a crooked finger|With a flick your wrist you make an arcane gesture towards|You hurl your open hands) towards (.*)(?:, opening your hand as your arm reaches full extension)?.|You fail in your efforts to invoke the spell.|You feel ready to (?:conjure|cast) (?:a magic missile|a spray of ballistics|prismatic spray|a fire dart|an acid arrow) again.)$
+^(?:You close your eyes and begin reciting from memory powerful words of magic, &#39;(?:Arcanis vaes|Tonash ingis|Bakmada Ingis|Api Anak|Uveluca Vaes)!&#39;|(?:You extend your hand with fingers fanning outwards, your palm directed|You thrust a closed fist|You point a crooked finger|With a flick your wrist you make an arcane gesture|You hurl your open hands) towards (.*)(?:, opening your hand as your arm reaches full extension)?.|You fail in your efforts to invoke the spell.|You feel ready to (?:conjure|cast) (?:a magic missile|a spray of ballistics|prismatic spray|a fire dart|an acid arrow) again.)$
 
 Execute the following javascript:
 
