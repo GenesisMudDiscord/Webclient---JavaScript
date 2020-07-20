@@ -5,6 +5,8 @@
 PROGRESS COUNTER TOOL: Captures and displays number of kills and time needed to
 reach each progress level. 
 
+Version: 2.0 Major update! Team reset and team_update triggers must be removed. Aliases progress, progressreset, and progressresetall must be updated as well as kill_trigger.
+
 Usage: 
 ======
 +At initial login, use <progressresetall> to setup
@@ -22,13 +24,12 @@ given based on functionality but NOT required - some are rather long and
 you may prefer to shorten them.
 +If you see "Not my kill and not in team - not counting in progress!" or
 "Killer not on my team - not counting in progress!" and you ARE in a team or the
-killer IS on your team, use <team> to refresh progress counter memory of team
-members. 
+killer IS on your team, please report issue to authors. 
 +To reset progress counter for a new team and/or area, use <progressreset>
 
 Known issues: 
 =============
-+team members that have not been introduced will not have their kills counted
+Unintroduced teammates do not have kills counted or shown
 
 Authors: 
 ========
@@ -41,10 +42,11 @@ Changelog:
 Removed linkdead alias as all reconnect issues should be resolved. Added <showkills>
 alias and team_update trigger. All aliases and triggers must be updated for this
 release.
+20200416: Version 2.0: Returned to using mud.gmcp values for team after reliability issues fixed by Cotillion. Removed team reset and team_update triggers as they are no longer needed. This change also fixes issue reported where some team member kills were not recorded. These triggers should be disabled or removed by anyone upgrading to this latest version.
 
 Manifest:
 =========
-3 triggers, 5 aliases
+1 triggers, 5 aliases
 
 =============================================================================================
 =============================================================================================
@@ -220,7 +222,6 @@ gwc.userdata.progressTime = new Date();
 gwc.userdata.progressTable = {};
 gwc.userdata.progressTimeTable = {};
 gwc.userdata.killsTable = {};
-gwc.connection.send('team');
 gwc.output.append('Reset progress counter...');
 
 =============================================================================================
@@ -241,7 +242,6 @@ gwc.userdata.progressTime = new Date();
 gwc.userdata.progressTable = {};
 gwc.userdata.progressTimeTable = {};
 gwc.userdata.killsTable = {};
-gwc.connection.send('team');
 gwc.output.append('Reset ALL progress counter...');
 
 =============================================================================================
@@ -256,10 +256,12 @@ Pattern: ^(\w+) (killed|defeated) (.*)\.$
 Javascript:
 ---------------------------------------------------------------------------------------------------
 
-// Initialize team variables
-if (gwc.userdata.team === undefined)gwc.userdata.team = {};
-if (gwc.userdata.team.leader === undefined) gwc.userdata.team.leader = '';
-if (gwc.userdata.team.members === undefined) gwc.userdata.team.members = [];
+// Initialize and define the gmcp variables in case we are fighting solo
+if (mud.gmcp['char.team'] === undefined) mud.gmcp['char.team'] = {};
+if (mud.gmcp['char.team'].members === undefined) mud.gmcp['char.team'].members = [];
+if (mud.gmcp['char.team'].leader === undefined) mud.gmcp['char.team'].leader = '';
+var members = mud.gmcp['char.team'].members;
+var leader = mud.gmcp['char.team'].leader;
 
 // Make sure progressTime is set to date rather than string value. After
 // return from linkdeath it is string type rather than integer
@@ -271,13 +273,13 @@ var killer = args[1];
 // Check to see if the enemy died to me or a teammate
 if (killer != 'You') {
   // I didn't get the kill...
-  if (gwc.userdata.team.leader == '') {
+  if (leader == '') {
     // ...and I'm not in a team. Don't count it.
 	gwc.output.append('Not my kill and not in team - not counting in progress!');
     return;
-  } else if (killer != gwc.userdata.team.leader) {
+  } else if (killer != leader) {
     // ...my leader didn't get the kill...
-    if (Object.values(gwc.userdata.team.members).indexOf(killer) == -1) {
+    if (Object.values(members).indexOf(killer) == -1) {
       // ...none of my teammates to the kill.  Don't count it.
 	  gwc.output.append('Killer not on my team - not counting in progress!');
       return;
@@ -328,7 +330,6 @@ if (gwc.userdata.currentProgress != newProgress && newProgress != 'insignificant
   gwc.userdata.progressTimeTable[newProgress] = Math.floor((tempDate.getTime() - gwc.userdata.progressTime) / 1000);
   gwc.userdata.progressKills = 0;
   gwc.userdata.progressTime = tempDate;
-  gwc.connection.send('team');
   gwc.connection.send('progress', true);
 }
 
@@ -344,67 +345,6 @@ if (newProgress == "fantastic") {
 
 // Store the new progress level as our current progress level
 gwc.userdata.currentProgress = newProgress;
-
-=============================================================================================
-=============================================================================================
-=============================================================================================
-
-TEAM RESET TRIGGER
----------------------------------------------------------------------------------------------------
-Name: Team reset trigger
-Type: regexp
-Pattern: ^The leader of your team is (\w+). (The other member is (\w+).|You are the only member.|The other members are (.*).)$|^You are the leader of your team. The members are (.*).$|^You are not in a team.$
----------------------------------------------------------------------------------------------------
-Pattern (JavaScript):
-
-// Initialize and define the gmcp variables in case we are fighting solo
-if (gwc.userdata.team === undefined)gwc.userdata.team = {};
-gwc.userdata.team.leader = '';
-gwc.userdata.team.members = [];
-
-// Set team leader and members
-if (args[0].includes('The leader of your team is')) {
-    gwc.userdata.team.leader = args[1];
-    gwc.output.append('Team leader is: ' +  gwc.userdata.team.leader);
-} else if (args[0].includes('You are the leader of your team')) {
-    gwc.userdata.team.leader = 'You';
-    gwc.output.append('Team leader is: ' +  gwc.userdata.team.leader);
-}
-
-if (args[0].includes('member')) {
-    // Set other team members
-	var index = 3;
-	if (args[0].includes('The other members are')) {
-	  index++;
-	}
-	if (gwc.userdata.team.leader == 'You') {
-	  index += 2;
-	}
-	var members = args[index].split(/[\s,]+/);
-
-    for (var i=0; i<members.length; i++) {
-	  if (members[i] != 'and') {
-        gwc.output.append('Adding member: ' + members[i]);
-        gwc.userdata.team.members.push(members[i]);
-	  }
-    }
-    gwc.output.append('Team members set to: ' +  gwc.userdata.team.members);
-} else if (args[0].includes('You are not in a team')) {
-  gwc.output.append('Reset team leader and members.');
-}
-
-=============================================================================================
-=============================================================================================
-=============================================================================================
-
-TEAM UPDATE TRIGGER
----------------------------------------------------------------------------------------------------
-Name: team_update
-Type: regexp
-Pattern: You are now led by|joins your team|joins the team of|team and forces you to leave|leave[s]? the team of|As you enter the team|Your leader is now|makes you the leader
-
-Execute the following commands:
-  team
 
 =============================================================================================
 =============================================================================================
