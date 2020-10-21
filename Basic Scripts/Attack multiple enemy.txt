@@ -1,0 +1,22 @@
++==============================================================================+
+| DESCRIPTION: For attacking multiple targets in ordinal, when you are tank    |
+| MANIFEST: 1 Alias                                                            |
+| AUTHOR: Cotillion                                                            |
+| USAGE:                                                                       |
+|                                                                              |
+| killall <name> <number> - Attack all up to <number> of enemy,                |
+|                           if <number> are omitted, default is 5.             |
+|                                                                              |
++==============================================================================+
+
+Pattern: killall
+Execute the following javascript:
+
+const { 1: target, 2: bodycount = 5 } = args
+const pr = new Intl.PluralRules('en-UK', { type: 'ordinal' });
+const suffixes = { one: 'st', two: 'nd', few: 'rd', other: 'th' }
+const stringify = (nr) => `${nr}${suffixes[pr.select(nr)]}`
+
+for (let targetOffset = 1; targetOffset <= bodycount; targetOffset++) {
+  gwc.connection.send(`kill ${stringify(targetOffset)} ${target}`); 
+}
