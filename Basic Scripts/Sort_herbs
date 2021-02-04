@@ -1,0 +1,463 @@
+gwc.connection.send("open pouch");
+gwc.connection.send("open jar");
+gwc.connection.send("get herbs from pouch");
+gwc.connection.send("get herbs from jar");
+gwc.connection.send("get herbs from second jar");
+gwc.connection.send("get herbs from third jar");
+gwc.connection.send("get herbs from fourth jar");
+
+var jar = "mental_qarraba"
+var jar2 = "component_qarraba"
+var jar3 = "general_qarraba"
+
+/*
+Herbs in Mental:
+angeltear
+angurth
+asparagus
+athly - Silent Valley, Calia
+beach willow
+beatha
+broccoli - North of ten Alders, Earthsea
+chantrelle
+common hop
+cord grass
+drakeroot
+fiddlehead
+fordinfa
+foxglove
+ginseng
+hellebore stinkwort
+locoweed
+lukilvor
+madwort
+mindleech
+moosho
+morel
+morning glory
+niphredil
+oakmoss
+salt wort
+sargassum
+sebre
+simbelmyne
+smooth camas
+suranie
+tansy
+tilhiyin
+tiger lily
+tomato
+uaine pine
+witch grass
+ylpoe
+*/
+
+/*
+Herbs for SOHM
+chokecherry
+myrtleberry
+saltwort
+mint
+chantrelle
+hazelnut
+surf grass
+fireweed
+soapweed
+frostheal
+elidross
+alfirin
+locoweed
+hawthorn
+bur reed
+sargassum
+saltwort
+cattail
+vallenwood blossom
+blung
+brown slime
+cladina
+chicory
+sphagnum
+poison ivy
+skullcap
+breadroot
+tangleshoot
+hemlock
+lady's slipper
+
+black shiny berries
+translucent red berries
+succulent rotund leaves
+handfuls of narrow sharply toothed leaves
+puffy yellow mushrooms
+hard enbracted nuts
+slender green leaves
+showy purple flowers
+stiff narrow leaves
+gray fuzzy leaves
+delicate pale blue flowers
+golden flowers
+purple hoary flowers
+red berries /*hawthorn
+ribbon-like linear leaves
+delicate red-brown algae /*sargassum
+succulent rotund leaves
+thick brown roots /breadroot and cattail
+lovely white blossoms
+purple-green shaggy mosses /*blung
+slimy brown algae
+coral-like grey lichens
+sharp short leaves
+greenish brown mosses
+oily drooping leaves
+rotting black mushrooms
+twisted thorned vines
+handfuls of green berries /*hemlock
+enchanting shoe-shaped flowers
+
+black shiny berries
+coral-like grey lichens
+delicate pale blue flowers
+delicate red-brown algae /*sargassum
+enchanting shoe-shaped flowers
+golden flowers
+gray fuzzy leaves
+greenish brown mosses
+handfuls of green berries /*hemlock
+handfuls of narrow sharply toothed leaves
+hard enbracted nuts
+lovely white blossoms
+oily drooping leaves
+puffy yellow mushrooms
+purple hoary flowers
+purple-green shaggy mosses /*blung
+red berries /*hawthorn
+ribbon-like linear leaves
+rotting black mushrooms
+sharp short leaves
+showy purple flowers
+slender green leaves
+slimy brown algae
+stiff narrow leaves
+succulent rotund leaves
+thick brown roots /breadroot and cattail
+translucent red berries
+twisted thorned vines
+
+leftovers
+
+hemlocks
+breadroots
+fireweeds
+salt worts
+myrtleberries
+*/
+
+gwc.connection.send("put chokecherries in " + jar2);
+gwc.connection.send("put coral-like grey lichens in " + jar2);
+gwc.connection.send("put delicate pale blue flowers in " + jar2);
+gwc.connection.send("put delicate red-brown algae in " + jar2); /*sargassum*/
+gwc.connection.send("put enchanting shoe-shaped flowers in " + jar2);
+gwc.connection.send("put golden flowers in " + jar2);
+gwc.connection.send("put gray fuzzy leaves in " + jar2);
+gwc.connection.send("put greenish brown mosses in " + jar2);
+gwc.connection.send("put hemlocks in " + jar2);
+gwc.connection.send("put handfuls of narrow sharply toothed leaves in " + jar2);
+gwc.connection.send("put hard enbracted nuts in " + jar2);
+gwc.connection.send("put lovely white blossoms in " + jar2);
+gwc.connection.send("put oily drooping leaves in " + jar2);
+gwc.connection.send("put puffy yellow mushrooms in " + jar2);
+gwc.connection.send("put purple hoary flowers in " + jar2);
+gwc.connection.send("put purple-green shaggy mosses in " + jar2); /*blung*/
+gwc.connection.send("put hawthorns in " + jar2); /*hawthorn*/
+gwc.connection.send("put ribbon-like linear leaves in " + jar2);
+gwc.connection.send("put rotting black mushrooms in " + jar2);
+gwc.connection.send("put sharp short leaves in " + jar2);
+gwc.connection.send("put fireweeds in " + jar2);
+gwc.connection.send("put slender green leaves in " + jar2);
+gwc.connection.send("put slimy brown algae in " + jar2);
+gwc.connection.send("put stiff narrow leaves in " + jar2);
+gwc.connection.send("put salt worts in " + jar2);
+gwc.connection.send("put breadroots in " + jar2);
+gwc.connection.send("put cattails in " + jar2);
+gwc.connection.send("put myrtleberries in " + jar2);
+gwc.connection.send("put twisted thorned vines in " + jar2);
+gwc.connection.send("put leftovers in " + jar2);
+
+
+/*mental herbs + stats
+
+*/
+gwc.connection.send("put angeltears in " + jar);
+gwc.connection.send("put angurthes in " + jar);
+gwc.connection.send("put asparaguses in " + jar);
+gwc.connection.send("put gnarled dark-green vines in " + jar);
+gwc.connection.send("put beach willows in " + jar);
+gwc.connection.send("put beathas in " + jar);
+gwc.connection.send("put broccoli in " + jar);
+gwc.connection.send("put common hops in " + jar);
+gwc.connection.send("put cord grasses in " + jar);
+gwc.connection.send("put drakeroots in " + jar);
+gwc.connection.send("put fiddleheads in " + jar);
+gwc.connection.send("put fordinfas in " + jar);
+gwc.connection.send("put foxgloves in " + jar);
+gwc.connection.send("put ginsengs in " + jar);
+gwc.connection.send("put stinking buttercups in " + jar);
+gwc.connection.send("put locoweeds in " + jar);
+gwc.connection.send("put lukilvors in " + jar);
+gwc.connection.send("put madworts in " + jar);
+gwc.connection.send("put mindleechs in " + jar);
+gwc.connection.send("put mooshos in " + jar);
+gwc.connection.send("put morels in " + jar);
+gwc.connection.send("put morning glorys in " + jar);
+gwc.connection.send("put niphredils in " + jar);
+gwc.connection.send("put oakmosss in " + jar);
+gwc.connection.send("put sebres in " + jar);
+gwc.connection.send("put simbelmynes in " + jar);
+gwc.connection.send("put linear keeled leaves in " + jar);
+gwc.connection.send("put suranies in " + jar);
+gwc.connection.send("put tansys in " + jar);
+gwc.connection.send("put tilhiyins in " + jar);
+gwc.connection.send("put tiger lilys in " + jar);
+gwc.connection.send("put tomatos in " + jar);
+gwc.connection.send("put uaine pines in " + jar);
+gwc.connection.send("put witch grasses in " + jar);
+gwc.connection.send("put ylpoes in " + jar);
+
+/*gwc.output.append("blackberries 20");
+gwc.connection.send("put blackberries in jar");
+gwc.output.append("thyme 5");
+gwc.connection.send("put thymes in jar");
+gwc.output.append("oregano 20");
+gwc.connection.send("put oreganos in jar");
+gwc.output.append("coccinea 10");
+gwc.connection.send("put coccineas in jar");
+gwc.output.append("tarragon 20");
+gwc.connection.send("put tarragons in jar");
+gwc.output.append("fennel 15");
+gwc.connection.send("put fennels in jar");
+gwc.output.append("savoury 10");
+gwc.connection.send("put stiff leaveses in jar");
+gwc.output.append("laurel 5");
+gwc.connection.send("put laurels in jar");
+
+
+gwc.output.append("suranie 20+");
+gwc.connection.send("put suranies in " + jar2);
+gwc.output.append("chokecherry 20");
+gwc.connection.send("put chokecherries in " + jar2);
+gwc.output.append("hazelnut 20");
+gwc.connection.send("put hazelnuts in " + jar2);
+gwc.output.append("elidross 10");
+gwc.connection.send("put elidrosses in " + jar2);
+gwc.output.append("alfirin 10");
+gwc.connection.send("put alfirins in " + jar2);
+gwc.output.append("hawthorn 30");
+gwc.connection.send("put hawthorns in " + jar2);
+gwc.output.append("cattail 20");
+gwc.connection.send("put cattails in " + jar2);
+gwc.output.append("mint 10");
+gwc.connection.send("put mints in " + jar2);
+gwc.output.append("soapweed 20");
+gwc.connection.send("put soapweeds in " + jar2);
+gwc.output.append("vallenwood blossom 20");
+gwc.connection.send("put lovely white blossoms in " + jar2);
+gwc.output.append("Bull kelp 20");
+gwc.connection.send("put sinuous green-brown algas in " + jar2);
+gwc.output.append("elidross 20");
+gwc.connection.send("put elidrosses in " + jar2);
+gwc.output.append("poison ivy 20");
+gwc.connection.send("put oily leaves in " + jar2);
+gwc.output.append("skullcap 20");
+gwc.connection.send("put skullcaps in " + jar2);
+gwc.output.append("chicory 20+");
+gwc.connection.send("put chicories in " + jar2);
+gwc.output.append("sphagnum 20");
+gwc.connection.send("put sphagnums in " + jar2);
+gwc.output.append("hemlock 20");
+gwc.connection.send("put hemlock in " + jar2);
+gwc.output.append("lady's slipper 20");
+gwc.connection.send("put enchanting shoe-shaped flowers in " + jar2);
+gwc.output.append("locoweeds 100");
+gwc.connection.send("put locoweeds in " + jar2);
+gwc.connection.send("put teeth in " + jar2);
+gwc.connection.send("put skulls in " + jar2);
+
+gwc.output.append("attanar 20");
+gwc.connection.send("put 20 attanars in " + jar);
+gwc.output.append("whitehorn");
+gwc.connection.send("put white berries in " + jar);
+gwc.output.append("goatsrue");
+gwc.connection.send("put whitish-blue flowers in " + jar);
+gwc.output.append("skunks");
+gwc.connection.send("put small purple berries in " + jar);
+gwc.output.append("pindans");
+gwc.connection.send("put pindans in " + jar);
+gwc.output.append("grey willow");
+gwc.connection.send("put grey willows in " + jar);
+gwc.output.append("jewelweed");
+gwc.connection.send("put jewelweeeds in " + jar);
+gwc.connection.send("put kukos in " + jar);
+gwc.connection.send("put astaldos in " + jar);
+
+gwc.output.append("handasse");
+gwc.connection.send("put handasses in " + jar);
+gwc.output.append("hensbanes");
+gwc.connection.send("put hensbanes in " + jar);
+
+*/
+/*. _________          _____         ___       _______        ___
+. |                                                           |
+. |                                                           |
+. |       HEALTH AFFECTING                                    |
+. |       ~-~-~-~-~-~-~-~-~                                   |
+. |       adillyp weed - Restores health                      |
+. |       annalda - Restores health                           |
+. |       asparagus - Restores health and mana                |
+. |       aspen bark - Restores health                        |
+. |       beaked sedge - Reduces health                       |
+. |       bergamot - Restores health                          |
+. |       black raspberry - Restores health                   |
+. |       blackroot - Restores health                         |
+. |       bloodcreep - Restores health                        |
+. |       blue gentian flower - Increases health              |
+. |       broad bean - Restores health                        |
+. |       brown slime - Restores health                       |
+. |       calendula - Restores health                         |
+. |       carlith - Restores health                           |
+. |       chives - Restores health                            |
+. |       cinquefoil - Restores health                        |
+. |       columbine - Reduces health                          |
+. |       coralline red alga - Reduces health                 |
+. |       emmelti - Restores health                           |
+. |       fiddlehead - Restores health and mana               |
+. |       fungiarbo - Reduces health                          |
+. |       garlic - Restores health                            |
+. |       green slime - Reduces health and fatigue            |
+. |                                                 page 6    |
+. |____    _______    __  ____    ___________     ___ __ _____|
+. _________          _____         ___       _______        ___
+. |                                                           |
+. |                                                           |
+. |       grey willow - Restores health                       |
+. |       horsetail - Reduces health                          |
+. |       huckleberry - Restores health                       |
+. |       lamia - Restores health                             |
+. |       lianor berry - Restores health                      |
+. |       marshmallow - Restores health                       |
+. |       monkshood - Restores health                         |
+. |       nasturtium - Restores health                        |
+. |       nilgu - Restores health                             |
+. |       parsley - Restores health                           |
+. |       pawnrose - Reduces health                           |
+. |       redeye - Restores health                            |
+. |       redwood leaf - Restores health                      |
+. |       saskatoon - Restores fatigue and health             |
+. |       sea bubble - Restores health                        |
+. |       sea moss - Restores health                          |
+. |       silverberry - Restores health                       |
+. |       skunk berries - Restores health                     |
+. |       solinaith - Dragonfear resistance / restores health |
+. |       sphagnum - Restores health                          |
+. |       strawberry - Restores health                        |
+. |       strim - Increases health                            |
+. |       three-leaf clover - Restores health                 |
+. |       white hallow - Restores health                      |
+. |       whitehorn - Restores health                         |*/
+
+gwc.connection.send("put fungaribos in " + jar);
+gwc.connection.send("put athlys in " + jar);
+gwc.connection.send("put skunk berrieses in " + jar);
+gwc.connection.send("put whitehorns in " + jar);
+gwc.connection.send("put grey willows in " + jar);
+gwc.connection.send("put 20 attanars in " + jar);
+
+/*. |       PHYSICAL STAT ENHANCEMENTS                          |
+. |       ~-~-~-~-~-~-~-~-~-~-~~-~-~                          |
+. |       astaldo - Increases discipline                      |
+. |       beach willow - Restores mana and increases int      |
+. |       cladina - Increases constitution                    |
+. |       evendim grass - Increases dexterity                 |
+. |       handasse - Increases intelligence                   |
+. |       khuz - Increases discipline                         |
+. |       lore - Increases intelligence                       |
+. |       oreste - Increases strength                         |
+. |       shamrock - Increase discipline                      |
+. |       spinach - Increases strength                        |
+. |       tuo - Increases strength                            |
+. |       tyelka - Increases dexterity                        |
+. |       yam - Increases strength
+*/
+gwc.connection.send("put aslaldos in " + jar);
+gwc.connection.send("put cladinas in " + jar);
+gwc.connection.send("put evendim grasses in " + jar);
+gwc.connection.send("put handasses in " + jar);
+gwc.connection.send("put khuzes in " + jar);
+gwc.connection.send("put tuos in " + jar);
+gwc.connection.send("put tyelkas in " + jar);
+
+/*. |       SKILL ENHANCEMENT                                   |
+. |       ~-~-~-~-~-~-~-~-~                                   |
+. |       blade - Increases tracking                          |
+. |       curugwath - Increases sneak and hide                |
+. |       eel grass - Increases swimming                      |
+. |       kuko - Increases awareness                          |
+. |       mandrake - Increases death spells                   |
+. |       pindan - Increases location sense
+*/
+gwc.connection.send("put kukos in " + jar);
+gwc.connection.send("put pindans in " + jar);
+/*. |       RESISTANCE                                          |
+. |       ~-~-~-~-~-~                                         |
+. |       fireweed - Fire resistance                          |
+. |       flameroot - Fire resistance                         |
+. |       frostheal - Cold resistance                         |
+. |       moly - Adds magic resistance                        |
+. |       numbis - Poison resistance                          |
+. |       seregon - Magic resistance                          |
+. |       soapweed - Acid resistance                          |
+. |       solinaith - Dragonfear resistance/restores health   |
+. |       sparkweed - Fire resistance                         |*/
+
+gwc.connection.send("put fireweeds in " + jar);
+gwc.connection.send("put sparkweeds in " + jar);
+gwc.connection.send("put frostheals in " + jar);
+gwc.connection.send("put seregons in " + jar);
+gwc.connection.send("put soapweeds in " + jar);
+gwc.connection.send("put solinaiths in " + jar);
+gwc.connection.send("put flameroots in " + jar);
+/*
+. |       CURES POISON                                        |
+. |       ~-~-~-~-~-~-                                        |
+. |       alfirin - Cures snake poison                        |
+. |       fungari - Cures poison                              |
+. |       goats rue - Cure poison                             |
+. |       hensbane - Cures poison                             |
+. |       jewelweed - Cures poison ivy                        |
+. |       marigold - Cures rashes/bug bites                   |
+. |       ungolestel - Cures spider poison                    |
+. |       wilcol - Poison resistance                          |*/
+gwc.connection.send("put fungaris in " + jar);
+gwc.connection.send("put goats rues in " + jar);
+gwc.connection.send("put jewelweeds in " + jar);
+gwc.connection.send("put wilcols in " + jar);
+gwc.connection.send("put hensbanes in " + jar);
+/*
+. |       OTHER EFFECTS                                       |
+. |       ~-~-~-~-~-~-~                                       |
+. |       bilberry - Nightvision                              |
+. |       darkroot - Darkness (If fresh)                      |
+. |       drudgeworth - Delays attacks in combat              |
+. |       glowshroom - Induces light                          |
+. |       ithilgil - Reduces panic                            |
+. |       mittikna - Light herb                               |
+. |       nethra - Underwater breathing                       |
+. |       pot - Spoils genitals for a short-lived high        |
+*/
+gwc.connection.send("put nethras in " + jar);
+gwc.connection.send("put bulberries in " + jar);
+gwc.connection.send("put herbs in " + jar3);
+
+gwc.connection.send("qlist " + jar);
+gwc.connection.send("qlist " + jar2);
+gwc.connection.send("qlist " + jar3);
