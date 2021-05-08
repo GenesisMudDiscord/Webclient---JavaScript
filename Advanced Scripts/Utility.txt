@@ -82,7 +82,10 @@ switch (a1) {
     append = function (command) {
       gwc.output.append (command)
     }
-
+    
+    //SILENCE NPC IN COMMUNICATION WINDOW
+    mud.Process.outgoing_gmcp ("core.options", {"npc_comms":"off"})
+    
     //ECHO USER EVERYTHING WORKED
     append ('[SYS] INIT > PASSED')
     break
