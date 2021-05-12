@@ -1,3 +1,10 @@
++==============================================================================+
+| DESCRIPTION: For fishing                                                     |
+| MANIFEST: 1 Trigger                                                          |
+| AUTHOR: Celse                                                                |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
 Trigger Name: Fishing
 Type: regexp
 Pattern:
