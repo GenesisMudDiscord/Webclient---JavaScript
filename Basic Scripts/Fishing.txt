@@ -1,0 +1,18 @@
+Trigger Name: Fishing
+Type: regexp
+Pattern:
+
+(?:You(r line is cast\. You should &lt;<span class="exit">reel rod<\/span>&gt; to try and catch something| can &lt;<span class="exit">reel rod<\/span>&gt; to try again| reel in your line, pulling in .*| reel in your line but there is nothing on it but your bait| reel in your line but there is nothing on it\. Not even your bait\. Drats| slide .* bait on the small shiny hook at the end of your line|r rod jerks down a bit and you yank up hard\.\.\. but the line snaps and your catch is lost)|Woah! You&#39;ve never caught .* this size before! A new record)(?:\.|!)$
+
+Execute the following javascript:
+
+const a0 = args[0], send = gwc.connection.send;
+
+switch (true) {
+  case /^(?:Woah! You&#39;ve never caught .* this size before! A new record|You(?: reel in your line, pulling in .*| reel in your line but there is nothing on it\. Not even your bait\. Drats|r rod jerks down a bit and you yank up hard\.\.\. but the line snaps and your catch is lost))(?:\.|!)$/.test(a0):
+    send('bait hook with bait'); break
+  case /^You (?:slide .* bait on the small shiny hook at the end of your line|reel in your line but there is nothing on it but your bait)\.$/.test(a0):
+    send('cast rod'); break
+  case /^You(?: can &lt;<span class="exit">reel rod<\/span>&gt; to try again|r line is cast\. You should &lt;<span class="exit">reel rod<\/span>&gt; to try and catch something)\.$/.test(a0):
+    send('reel rod'); break
+}
