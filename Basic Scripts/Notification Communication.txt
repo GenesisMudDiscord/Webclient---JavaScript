@@ -1,0 +1,17 @@
++==============================================================================+
+| DESCRIPTION: Notification for idle communication                             |
+| MANIFEST: 1 Trigger                                                          |
+| AUTHOR: Celse                                                                |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
+Trigger name: Notification Communication
+Type: GMCP
+Pattern: comm.channel
+
+Execute the following javascript:
+
+Notification.requestPermission()
+let text = mud.gmcp['comm.channel'].name + ': ' + mud.gmcp['comm.channel'].body
+let img  = '/play/icons-31120ca82cf5b61401ea1bc4ca49dd09/apple-touch-icon-60x60.png'
+let newNotification = new Notification("Message", { body : text, icon : img, silent : true});
