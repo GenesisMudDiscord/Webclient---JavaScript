@@ -12,7 +12,7 @@ Pattern: comm.channel
 Execute the following javascript:
 
 if (Notification.permission == 'granted') { //Permission granted, create new notification
-  let newNotification = new Notification("Message", { body : mud.gmcp['comm.channel'].name + ': ' + mud.gmcp['comm.channel'].body, icon : '/play/icons-31120ca82cf5b61401ea1bc4ca49dd09/apple-touch-icon-60x60.png', silent : true})
+  let newNotification = new Notification("Message", { body : mud.gmcp['comm.channel'].message, icon : '/play/icons-31120ca82cf5b61401ea1bc4ca49dd09/apple-touch-icon-60x60.png', silent : true})
   }
 else if (Notification.permission == 'default') { //Permission not set, request permimssion
   Notification.requestPermission()
