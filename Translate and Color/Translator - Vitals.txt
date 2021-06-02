@@ -8,7 +8,7 @@
 Type: regexp
 Pattern:
 
-^(You|[A-Z][a-z]+|The .*) (are|is) (?:(?:physically )?\b(at death&#39;s door|barely alive|terribly hurt|in a very bad shape|in agony|in a bad shape|very hurt|suffering|hurt|aching|somewhat hurt|slightly hurt|sore|feeling well|feeling very well)\b)(?: and (?:mentally \b(in a vegetable state|exhausted|worn down|indisposed|in a bad shape|very degraded|rather degraded|degraded|somewhat degraded|slightly degraded|in full vigour)\b))?\.$
+^((?:\(|\[)?(?:You|[A-Z][a-z]+|The .*)(?:\)|\])?) (are|is) (?:(?:physically )?\b(at death&#39;s door|barely alive|terribly hurt|in a very bad shape|in agony|in a bad shape|very hurt|suffering|hurt|aching|somewhat hurt|slightly hurt|sore|feeling well|feeling very well)\b)(?: and (?:mentally \b(in a vegetable state|exhausted|worn down|indisposed|in a bad shape|very degraded|rather degraded|degraded|somewhat degraded|slightly degraded|in full vigour)\b))?\.$
 
 Execute the following javascript:
 
