@@ -1,26 +1,30 @@
-+==============================================================================+
-| DESCRIPTION: Buttons for mobile                                              |
+﻿+==============================================================================+
+| DESCRIPTION: Buttons for movement on mobile                                  |
 | MANIFEST: 1 Alias                                                            |
 | AUTHOR: Celse                                                                |
-| USAGE: Plug & Play                                                           |
+| USAGE:                                                                       |
+|                                                                              |
+| button <enable/disable> - enable/disable buttons                             |
+|                                                                              |
 +==============================================================================+
 
-Pattern: enable_button
+Pattern: button
 Execute the following javascript:
 
-/*jshint ignore:start*/
-function constructButton (buttonId, positionBottom, positionLeft, displayText, clickCommand)
-{
+/* jshint ignore:start*/
+function constructButton (buttonId, positionBottom, positionLeft, displayText, clickCommand) {
   let tempElement = document.createElement('button')
   tempElement.setAttribute('id',buttonId)
   document.querySelector("#main > div.output-wrapper").appendChild(tempElement)
   let Button = document.getElementById(buttonId)
-  Button.style = `position: absolute; bottom: ${positionBottom}; left: ${positionLeft}; width: 20%; height: 10%; background: transparent; color: rgba(255, 255, 255, 0.7); border: none;`
+  Button.style = `position: absolute; bottom: ${positionBottom}; left: ${positionLeft}; width: 20%; height: 10%; background: transparent; color: rgba(255, 255, 255, 0.2); border: none;`
   Button.innerText = displayText
   Button.onclick = () => eval(clickCommand)
 }
 
-const 
+switch (args[1]) {
+  case 'enable' :
+    const 
       buttonNorth     = new constructButton ('buttonNorth', '55%', '40%', '↑', "gwc.connection.send('north')"),
       buttonNorthEast = new constructButton ('buttonNorthEast', '55%', '60%', '↗', "gwc.connection.send('northeast')"),
       buttonEast      = new constructButton ('buttonEast', '45%', '60%', '→', "gwc.connection.send('east')"),
@@ -34,3 +38,11 @@ const
       buttonDown      = new constructButton ('buttonDown', '35%', '80%', '⇟', "gwc.connection.send('down')"),
       buttonIn        = new constructButton ('buttonIn', '55%', '0%', '↪', "gwc.connection.send('in')"),
       buttonOut       = new constructButton ('buttonOut', '35%', '0%', '↩', "gwc.connection.send('out')")
+  break
+  
+  case 'disable' :
+    ['North','NorthEast','East','SouthEast','South','SouthWest','West','NorthWest','In','Out','Up','Down','Map'].forEach ( (element) => {
+      document.getElementById(`button${element}`).remove()
+    })
+  break
+}
