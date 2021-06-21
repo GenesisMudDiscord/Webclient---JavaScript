@@ -1,0 +1,80 @@
++==============================================================================+
+| DESCRIPTION: Backup your code                                                |
+| MANIFEST: 1 Alias                                                            |
+| AUTHOR: Buri                                                                 |
+| USAGE:                                                                       |
+|                                                                              |
+| backup download log/triggers/aliases/userdata/repo                           |
+|                 (repo download triggers & aliases & userdata)                |
+| backup upload   <choose single or multiple files>                            |
+|                 (files name must be triggers/aliases/userdata.json)          |
+|                                                                              |
++==============================================================================+
+
+Pattern: backup
+Execute the following javascript:
+
+switch (args[1]) {
+  case 'download' :
+    switch (args[2]) {
+      case 'log' :
+        ((fileName, textContent) => {
+          let tempElement = document.createElement ('a')
+          tempElement.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent (textContent)
+          tempElement.download = fileName
+          tempElement.click ()
+        })(`log-${new Date().toLocaleDateString()}.html`, `<!DOCTYPE html><html><body style="font-family:Source Code Pro,monospace;color:#d0d0d0;background-color:#121212"><pre> ${document.getElementById('mudoutput').innerHTML} </pre></body></html>`)
+      break
+      
+      case 'triggers' : case 'aliases' : case 'userdata' : case 'repo' :
+        function getAjax (fileName) {
+          $.ajax ({
+            type: "GET",
+            beforeSend: (request) => {
+              request.setRequestHeader ("GMCP-Token", mud.gmcp['core.token'][0] + mud.gmcp['core.token'][1] + mud.gmcp['core.token'][2] + mud.gmcp['core.token'][3] + mud.gmcp['core.token'][4] + mud.gmcp['core.token'][5] + mud.gmcp['core.token'][6] + mud.gmcp['core.token'][7])
+            },
+            url: `https://www.genesismud.org/player_file/${encodeURIComponent (mud.gmcp['char.login'].name)}/${fileName}.json`,
+            success: (dataDownload) => {
+              let tempElement = document.createElement ('a')
+              tempElement.href = 'data:application/octet-stream,' + encodeURIComponent (dataDownload)
+              tempElement.download = `${fileName}.json`
+              tempElement.click ()
+            }
+          })
+        }
+        if (args[2] == 'repo') ['triggers', 'aliases', 'userdata'].forEach (name => getAjax(name))
+        else getAjax (args[2])
+      break
+    }
+  break
+    
+  case 'upload' :
+    let tempElement = document.createElement ('input')
+    tempElement.type = 'file'
+    tempElement.multiple = 'true'
+    tempElement.accept = '.json'
+    tempElement.onchange = (event) => {
+      var readerFile = new FileReader (), currentFile = event.target.files.length - 1, listFile = event.target.files
+      readerFile.onloadend = () => {
+        if (!/^(?:triggers|aliases|userdata)\.json$/.test (listFile[currentFile].name)) append ("[BACKUP] UPLOAD > ERROR: file name invalid")
+        else {
+          $.ajax ({
+            type: "POST",
+            beforeSend: (request) => {
+              request.setRequestHeader ("GMCP-Token", mud.gmcp['core.token'][0] + mud.gmcp['core.token'][1] + mud.gmcp['core.token'][2] + mud.gmcp['core.token'][3] + mud.gmcp['core.token'][4] + mud.gmcp['core.token'][5] + mud.gmcp['core.token'][6] + mud.gmcp['core.token'][7])
+              request.setRequestHeader ("Content-Type", 'application/octet-stream')
+            },
+            url: `https://www.genesismud.org/player_file/${encodeURIComponent (mud.gmcp['char.login'].name)}/${listFile[currentFile].name}`,
+            data: readerFile.result
+          })
+          if (currentFile > 0) {
+            currentFile --
+            readerFile.readAsText (listFile[currentFile])
+          }
+        }
+      }
+      readerFile.readAsText (listFile[currentFile])
+    }
+    tempElement.click ()
+  break
+}
