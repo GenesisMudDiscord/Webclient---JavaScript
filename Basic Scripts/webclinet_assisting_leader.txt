@@ -1,7 +1,7 @@
 
 +==============================================================================+
 | DESCRIPTION: Disable NPC chatter in communication window                     |
-| MANIFEST: 1 Alia, 3 Triggers                                                 |
+| MANIFEST: 1 Alias, 3 Triggers                                                 |
 | AUTHOR: Nadineioes                                                           |
 | USAGE: Plug & Play                                                           |
 +==============================================================================+
