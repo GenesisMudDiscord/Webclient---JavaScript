@@ -1,4 +1,4 @@
-﻿+==============================================================================+
++==============================================================================+
 | DESCRIPTION: Buttons for movement on mobile                                  |
 | MANIFEST: 1 Alias                                                            |
 | AUTHOR: Celse                                                                |
@@ -33,11 +33,19 @@ switch (args[1]) {
       buttonSouthWest = new constructButton ('buttonSouthWest', '35%', '20%', '↙', "gwc.connection.send('southwest')"),
       buttonWest      = new constructButton ('buttonWest', '45%', '20%', '←', "gwc.connection.send('west')"),
       buttonNorthWest = new constructButton ('buttonNorthWest', '55%', '20%', '↖', "gwc.connection.send('northwest')"),
-      buttonMap       = new constructButton ('buttonMap', '45%', '40%', '▩', "gwc.output.append(mud.gmcp['room.map'].map)"),
+      buttonMap       = new constructButton ('buttonMap', '45%', '40%', '▩', "gwc.connection.send('exa map')"),
       buttonUp        = new constructButton ('buttonUp', '55%', '80%', '⇞', "gwc.connection.send('up')"),
       buttonDown      = new constructButton ('buttonDown', '35%', '80%', '⇟', "gwc.connection.send('down')"),
       buttonIn        = new constructButton ('buttonIn', '55%', '0%', '↪', "gwc.connection.send('in')"),
       buttonOut       = new constructButton ('buttonOut', '35%', '0%', '↩', "gwc.connection.send('out')")
+    
+Name: Coloring red X
+Type: plain
+Pattern: X
+
+Execute the following javascript:
+gwc.output.replace("X", '<span style="color:crimson">X</span>',true)
+=======
   break
   
   case 'disable' :
