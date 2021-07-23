@@ -4,16 +4,11 @@
 | AUTHOR: Celse                                                                |
 | USAGE:                                                                       |
 |                                                                              |
-|       First time use? Run the following once to creates needed variables:    |
-|                                                                              |
-| gwc.userdata.misc = {};                                                      |
-| gwc.userdata.misc.idle = false;                                              |
-|                                                                              |
 |       This script commands:                                                  |
 |                                                                              |
 | sys init   - Run after you login so other scripts depends on this can work   |
 | sys dump X - Replace X with <gwc.userdata> or whatever, data dump            |
-| sys log X  - Replace X with <clear> or <download>, log related, self explain |
+| sys log    - Clear log on screen                                             |
 | sys idle   - On/off button for idling                                        |
 |                                                                              |
 |       As global function for use in other scripts:                           |
@@ -23,13 +18,21 @@
 | send ('say hi', 3)         => Send command <say hi> 3 times                  |
 | send ('loot', true)        => Use alias <loot> once                          |
 | send (['loot','b'], true)  => Use aliases <loot> & <b> once                  |
-| append ('LOVE GENESIS')    => Print <LOVE GENESIS> to your screen            |
+| append ('LOVE GENESIS')    => Print LOVE GENESIS to your screen              |
+| append (['FISH','FILLET']) => Print FISH & FILLET to your screen             |
+|                                                                              |
+|       Others:                                                                |
+|                                                                              |
+| Silence NPC in communication window                                          |
+| Requests permission for sending notification on Windows                      |
+| Global <d> variable as shortcut for gwc.userdata                             |
+|                                                                              |
 +==============================================================================+
 
 Pattern: sys
 Execute the following javascript:
 
-/* jshint ignore:start */
+/*jshint ignore:start*/
 
 //DECLARING ALIAS FOR LESS TYPING
 var a1 = args[1], a2 = args[2]
@@ -37,54 +40,56 @@ var a1 = args[1], a2 = args[2]
 switch (a1) {
 
   //CLEAR CACHED LOG AND DOWNLOAD LOG FUNCTION
-  case 'log'  : 
-    if (a2 === 'clear'   ) { document.getElementById('mudoutput').innerHTML = "" }
-    if (a2 === 'download') {
-      ((fileName, textContent) => {
-        var tempElement = document.createElement('a')
-        tempElement.setAttribute ('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textContent))
-        tempElement.setAttribute ('download', fileName)
-        tempElement.style.display = 'none'
-        document.body.appendChild (tempElement)
-        tempElement.click()
-        document.body.removeChild (tempElement)
-       })(`log-${new Date().toLocaleDateString().replace('.','-').replace('.','-')}.html`, `<!DOCTYPE html><html><body style="font-family:Source Code Pro,monospace;color:#d0d0d0;background-color:#121212"><pre> ${document.getElementById('mudoutput').innerHTML} </pre></body></html>`)
-    } break
+  case 'log' :
+    document.getElementById('mudoutput').innerHTML = ""
+  break
 
-  //DATA & API DUMP FUNCTION
-  case 'dump' : append (JSON.stringify (eval (a2), null, 2)); break
+  //DATA & API DUMP FUNCTION, Example: sys dump 'mud.gmcp["char.team"]'
+  case 'dump' :
+    append (JSON.stringify (eval (a2), null, 2))
+  break
 
   //IDLE FUNCTION AND BUTTON
-  case 'idle' : 
-    idle = () => { 
-      var t
-      if (d.misc.idle) { send ('date'); t = setTimeout (() => { idle() }, 1800000) } 
-      else { clearTimeout (t) }
+  case 'idle' :
+    if (typeof GWC_idle === 'undefined') {
+      GWC_idle = setInterval (send (['sys log clear','date'], true), 300000)
+      append ('[SYS] IDLE > ENABLE')
     }
-    if (d.misc.idle) { d.misc.idle = false; append (`[SYS] IDLE > ${d.misc.idle}`) } else { d.misc.idle = true; append (`[SYS] IDLE > ${d.misc.idle}`) } idle(); break
+    else {
+      clearInterval (GWC_idle)
+      delete GWC_idle
+      append ('[SYS] IDLE > DISABLE')
+    }
+  break
 
   //INITIALIZE CORE COMPONENTS
   case 'init' :
 
-    //DECLARING GLOBAL ALIAS FOR USE ACROSS SCRIPTS
+    //GLOBAL ALIAS FOR USE ACROSS SCRIPTS
     d = gwc.userdata
 
     //GLOBAL GWC.CONNECTION.SEND ALIAS, FOR LESS TYPING
-    send = function (command, type) {
-      if (command instanceof  Array   &&        type === undefined) { command.map (mapOutput => gwc.connection.send (mapOutput      ))                         } //Different commands
-      if (command instanceof  Array   && typeof type === 'boolean') { command.map (mapOutput => gwc.connection.send (mapOutput, true))                         } //Different commands, parse alias
-      if (typeof command === 'string' &&        type === undefined) { gwc.connection.send (command      )                                                      } //One command
-      if (typeof command === 'string' && typeof type === 'boolean') { gwc.connection.send (command, true)                                                      } //One command, parse alias
-      if (typeof command === 'string' && typeof type === 'number' ) { for (let loopCount = 0; loopCount < type; loopCount++) { gwc.connection.send (command) } } //Loop one command n times
+    send = (command, type) => {
+      if (command instanceof  Array   &&        type === undefined) command.map (mapOutput => gwc.connection.send ('!' + mapOutput)) //Different commands
+      if (command instanceof  Array   && typeof type === 'boolean') command.map (mapOutput => gwc.connection.send (mapOutput, true)) //Different commands, parse alias
+      if (typeof command === 'string' &&        type === undefined) gwc.connection.send ('!' + command) //One command
+      if (typeof command === 'string' && typeof type === 'boolean') gwc.connection.send (command, true) //One command, parse alias
+      if (typeof command === 'string' && typeof type === 'number' ) for (let loopCount = 0; loopCount < type; loopCount++) gwc.connection.send ('!' + command) //Loop one command n times
     }
 
     //GLOBAL GWC.OUTPUT.APPEND ALIAS, FOR LESS TYPING
-    append = function (command) {
-      gwc.output.append (command)
+    append = (command) => {
+      if (command instanceof Array) command.map (mapOutput => gwc.output.append (command))
+      if (typeof command === 'string') gwc.output.append (command)
     }
 
-    //ECHO USER EVERYTHING WORKED
-    append ('[SYS] INIT > PASSED')
-    break
+    //SILENCE NPC IN COMMUNICATION WINDOW
+    mud.Process.outgoing_gmcp ('core.options', {'npc_comms':'off'})
 
+    //REQUEST NOTIFICATION PERMISSION
+    Notification.requestPermission()
+    
+    //ECHO USER EVERYTHING WORKED
+    append ('[SYS] INIT > PASS')
+  break
 }

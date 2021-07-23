@@ -1,0 +1,20 @@
++==============================================================================+
+| DESCRIPTION: Notification for idle communication                             |
+| MANIFEST: 1 Trigger                                                          |
+| AUTHOR: Celse                                                                |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
+Trigger name: Notification Communication
+Type: GMCP
+Pattern: comm.channel
+
+Execute the following javascript:
+
+if (Notification.permission == 'granted') { //Permission granted, create new notification
+  let newNotification = new Notification("Message", { body : mud.gmcp['comm.channel'].message, icon : '/play/icons-31120ca82cf5b61401ea1bc4ca49dd09/apple-touch-icon-60x60.png', silent : true})
+  }
+else if (Notification.permission == 'default') { //Permission not set, request permimssion
+  Notification.requestPermission()
+}
+else {} //Permission denied, do nothing

@@ -1,0 +1,35 @@
++==============================================================================+
+| DESCRIPTION: For fast travel between 2 fixed locations                       |
+| MANIFEST: 1 Alias                                                            |
+| AUTHOR: Celse                                                                |
+| USAGE:                                                                       |
+|                                                                              |
+| r churchshop   - Run from church to shop                                     |
+| r churchshop b - Run back from shop to church                                |
+|                                                                              |
++==============================================================================+
+
+Pattern: r
+Execute the following javascript:
+
+//DECLARE SHORTCUT FOR LESS TYPING
+const a1 = args[1], a2 = args[2], send = gwc.connection.send
+
+const libraryPath = {
+  churchshop : ['s','e','e','s'],
+  //add_new_path_here : ['n','e','s','w'],  
+
+  //INVERSE DIRECTION LIBRARY FOR PATH LIBRARY
+  invert   : {'n':'s', 's':'n', 'e':'w', 'w':'e', 'nw':'se', 'ne':'sw', 'sw':'ne', 'se':'nw', 'u':'d', 'd':'u', 'in':'out', 'out':'in'},
+  
+  //RUN FORWARD FUNCTION, LOOP THROUGH EACH STEPS IN PATH, SEND THE STEP
+  forward  : (path) => path.map ( (step) => send(step) ),
+  
+  //RUN BACKWARD FUNCTION, REVERSE ORDER OF STEPS IN PATH, LOOP THROUGH EACH STEPS IN PATH, INVERT THE STEP, SEND THE STEP
+  backward : (path) => { path.reverse(); path.map ( (step) => { step = libraryPath.invert[step]; send(step) } ) }
+}
+
+switch (a2) {
+  case undefined : libraryPath.forward  (libraryPath[a1]); break
+  case 'b'       : libraryPath.backward (libraryPath[a1]); break
+}

@@ -1,0 +1,114 @@
+
++==============================================================================+
+| DESCRIPTION: Following team leader through the more complext entrances.      |
+| MANIFEST: 2 Triggers                                                         |
+| AUTHOR: Hannabeth                                                            |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
+
+Name: ~Team - setting leader
+Type: regexp
+Pattern: (You are now led by (.*)\.|The leader of your team is (.*)\. .*)
+
+Execute the following javascript:
+
+  if(gwc.userdata.leader == null) gwc.userdata.leader = gwc.userdata.leader || {}; 
+  if(args[2] != null) {gwc.userdata.leader = args[2]}
+  else{gwc.userdata.leader = args[3]} 
+  gwc.output.append('trigger hit === ' + gwc.userdata.leader);
+  
+
+==============================================================================================
+Name: ~Team Climbing/entering
+Type: regexp
+Pattern: ^(.*) (grabs a rope from the rigging above and swings across to the (.*)\.|leaves climbing over the gate|falls into a dark hole and disappears|climbs the ladder|slides down in the opening between the sharp stones, and disappears into the darkness|climbs out of the narrow hole|leaves enters a dark opening in the side of the tower|pushes on the doors,|opens the tower door|swims up and rubs the left eye of the|allowing him to swim through to the other side|leaves into the ruined watchtower|slides down in the opening between the sharp stones, and disappears into the darkness|climbs out of the narrow hole in the ceiling|leaves by climbing up the cliff|walks through the gap in the wall, entering Kendermore|walks through the gap in the wall, exiting Kendermore|vanishes into a hidden exit somewhere|exits the shaft!)
+
+Execute the following javascript:
+
+  gwc.output.append('trigger hit ===' +args[1]);
+  //(gwc.connection.send());
+  //gwc.userdata.leader = gwc.userdata.leader || {};
+    
+  gwc.output.append(gwc.userdata.leader);
+  if(args[1] === gwc.userdata.leader){
+    
+    gwc.output.append('in the right spot2');
+    switch (args[2])
+      {
+        case 'grabs a rope from the rigging above and swings across to the ' + args[3] + '.':
+          gwc.connection.send('board ' + args[3]);
+          break; 
+        case 'falls into a dark hole and disappears':
+          gwc.connection.send('dismount');
+          gwc.connection.send('dismount horse');
+          gwc.connection.send('dig');
+          break;        
+        case 'climbs the ladder':
+          gwc.connection.send('climb ladder');
+          gwc.connection.send('cl', true);// A Hannabeth thing, remove this
+          break; 
+        case 'slides down in the opening between':
+          gwc.connection.send('enter opening');
+          break; 
+        case 'climbs out of the narrow hole':
+          gwc.connection.send('enter opening');
+          break; 
+        case 'leaves enters a dark opening in the side of the tower':
+          gwc.connection.send('enter tower');
+          break; 
+        case 'pushes on the doors,':
+          gwc.connection.send('push door');
+          break; 
+        case 'opens the tower door':
+          gwc.connection.send('open tower door');
+          break; 
+        case 'swims up and rubs the left eye of the':
+          gwc.connection.send('rub left eye');
+          break; 
+        case 'allowing him to swim through to the other side':
+          gwc.connection.send('enter gates');
+          break; 
+        case 'leaves into the ruined watchtower':
+          gwc.connection.send('enter watchtower');
+          break;
+        case 'slides down in the opening between the sharp stones, and disappears into the darkness':
+          gwc.connection.send('dismount');
+          gwc.connection.send('dismount horse');
+          gwc.connection.send('slide opening');
+          break;
+        case 'climbs out of the narrow hole in the ceiling':
+          gwc.connection.send('climb hole');
+          break;
+        case 'leaves climbing over the gate':
+          gwc.connection.send('climb gate');
+          break;
+        case 'gets down on all fours and climbs into the bushes':
+          gwc.connection.send('enter bushes');
+          gwc.connection.send('search brush');
+          break;
+        case 'leaves by climbing up the cliff':
+          gwc.connection.send('climb cliff');
+          gwc.connection.send('climb cliff');
+          break;
+          
+        case 'walks through the gap in the wall, entering Kendermore':
+        case 'walks through the gap in the wall, exiting Kendermore':
+          gwc.connection.send('enter gap');
+          break;
+          
+        case 'vanishes into a hidden exit somewhere':
+          gwc.connection.send('exa bushes');
+          gwc.connection.send('dismount');
+          gwc.connection.send('enter tunnel');
+          break;
+        case 'exits the shaft!':
+          
+          gwc.connection.send('exit shaft');
+          break;
+          
+        default:
+          gwc.output.append('Something has gone very very wrong... ...');
+          break;
+    }
+  }
