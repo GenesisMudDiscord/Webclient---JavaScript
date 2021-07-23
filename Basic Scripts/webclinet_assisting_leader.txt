@@ -1,14 +1,22 @@
+
++==============================================================================+
+| DESCRIPTION: Disable NPC chatter in communication window                     |
+| MANIFEST: 1 Alias, 3 Triggers                                                 |
+| AUTHOR: Nadineioes                                                           |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
 Name: ~Team - setting leader
 Type: regexp
 Pattern: (You are now led by (.*)\.|The leader of your team is (.*)\. .*)
 
 Execute the following javascript:
------------------------------------------------------------------------------------------------
+
   if(gwc.userdata.leader == null) gwc.userdata.leader = gwc.userdata.leader || {}; 
   if(args[2] != null) {gwc.userdata.leader = args[2]}
   else{gwc.userdata.leader = args[3]} 
   gwc.output.append('trigger hit === ' + gwc.userdata.leader);
------------------------------------------------------------------------------------------------
+  
 ==============================================================================================
 
 
@@ -17,7 +25,7 @@ Type: regexp
 Pattern: (.*) attacks
 
 Execute the following javascript:
------------------------------------------------------------------------------------------------
+
   if (gwc.userdata.attempted == 0){
     if(args[1] === gwc.userdata.leader){
     gwc.connection.send("a " + gwc.userdata.leader, true);
@@ -31,7 +39,7 @@ Execute the following javascript:
   }
   setTimeout(retry, 1000);
   gwc.output.color("#ff4c4c");
------------------------------------------------------------------------------------------------
+  
 ==============================================================================================
 ensures specials are called when solo-fighting:
 Name: Attacking
@@ -39,7 +47,7 @@ Type: regexp
 Pattern: ^You (attack|assist)
 
 Execute the following javascript:
------------------------------------------------------------------------------------------------
+
   gwc.connection.send("a", true);
   //gwc.connection.send("cast ngasha");
   
@@ -47,14 +55,14 @@ Execute the following javascript:
   gwc.connection.send("a", true);
   }
   setTimeout(re_assist, 500);
------------------------------------------------------------------------------------------------
+  
 ==============================================================================================
 ALIASES
 Pattern: a
 
 Execute the following javascript:
------------------------------------------------------------------------------------------------
+
   if(args[1] != null) {gwc.connection.send("assist " + args[1])}
   else{gwc.connection.send("assist")}
   gwc.connection.send("battle_spells lesser", true);//replace this with whatever you call your specials with
------------------------------------------------------------------------------------------------
+  

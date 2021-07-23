@@ -1,14 +1,23 @@
+
++==============================================================================+
+| DESCRIPTION: Following team leader through the more complext entrances.      |
+| MANIFEST: 2 Triggers                                                         |
+| AUTHOR: Hannabeth                                                            |
+| USAGE: Plug & Play                                                           |
++==============================================================================+
+
+
 Name: ~Team - setting leader
 Type: regexp
 Pattern: (You are now led by (.*)\.|The leader of your team is (.*)\. .*)
 
 Execute the following javascript:
------------------------------------------------------------------------------------------------
+
   if(gwc.userdata.leader == null) gwc.userdata.leader = gwc.userdata.leader || {}; 
   if(args[2] != null) {gwc.userdata.leader = args[2]}
   else{gwc.userdata.leader = args[3]} 
   gwc.output.append('trigger hit === ' + gwc.userdata.leader);
------------------------------------------------------------------------------------------------
+  
 
 ==============================================================================================
 Name: ~Team Climbing/entering
@@ -16,7 +25,7 @@ Type: regexp
 Pattern: ^(.*) (grabs a rope from the rigging above and swings across to the (.*)\.|leaves climbing over the gate|falls into a dark hole and disappears|climbs the ladder|slides down in the opening between the sharp stones, and disappears into the darkness|climbs out of the narrow hole|leaves enters a dark opening in the side of the tower|pushes on the doors,|opens the tower door|swims up and rubs the left eye of the|allowing him to swim through to the other side|leaves into the ruined watchtower|slides down in the opening between the sharp stones, and disappears into the darkness|climbs out of the narrow hole in the ceiling|leaves by climbing up the cliff|walks through the gap in the wall, entering Kendermore|walks through the gap in the wall, exiting Kendermore|vanishes into a hidden exit somewhere|exits the shaft!)
 
 Execute the following javascript:
------------------------------------------------------------------------------------------------
+
   gwc.output.append('trigger hit ===' +args[1]);
   //(gwc.connection.send());
   //gwc.userdata.leader = gwc.userdata.leader || {};
@@ -103,4 +112,3 @@ Execute the following javascript:
           break;
     }
   }
------------------------------------------------------------------------------------------------
