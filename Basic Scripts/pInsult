@@ -1,3 +1,13 @@
++==============================================================================+
+| DESCRIPTION: Generates insults or battcries in a guild-friendly fashion      |
+| MANIFEST: 1 Alias                                                            |
+| AUTHOR: Nadineioes                                                           |
+| USAGE: Plug & Play (or modify to suit your own character/guild theme)        |
++==============================================================================+
+
+Pattern: pinsult
+Execute the following javascript:
+
 function Intro(){
   var randomIndex = Math.floor(Math.random() * (d.pinsult.intro).length);
   var randomIntro = d.pinsult.intro[randomIndex];
