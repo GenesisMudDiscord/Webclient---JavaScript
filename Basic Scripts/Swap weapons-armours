@@ -1,0 +1,127 @@
++==============================================================================+
+| DESCRIPTION: Swapping armours and weapons for different battle styles        |
+| MANIFEST: 1 Alias                                                            |
+| AUTHOR: Nadineioes                                                           |
+| USAGE: configure to your own gear                                            |
+|                                                                              |
+| swap <armour/glass/travelling>                                               |
+|                                                                              |
++==============================================================================+
+
+Pattern: swap
+Execute the following javascript:
+
+var glass_head = 'unusual black helm';
+var heavy_head = 'unusual black helm';
+var glass_body = 'webcloth body-stocking';
+var heavy_body = 'imbued chainmail';
+var glass_arms = 'unusual pair of bronze arm bands';
+var heavy_arms = 'unusual padded bracers';
+var glass_hands = 'gloves';
+var heavy_hands = 'gloves';
+var glass_robe = 'unusual dirty brownish-green robe';
+var heavy_robe = 'robe';
+var glass_legs = '';
+var heavy_legs = 'light steel greaves';
+var glass_feet = 'steel boots';
+var heavy_feet = 'steel boots';
+var glass_weapon = '';
+var heavy_weapon = 'lethal dagger';
+var glass_wand = 'twisted wand';
+var heavy_wand = 'twisted wand';
+var glass_other = 'dark grimoire';
+var heavy_other = 'kite shield';
+
+function glass_travelling() {
+    gwc.connection.send("wear webcloth body-stocking");
+    //gwc.connection.send("wear shimmering crystalline fullplate");
+    gwc.connection.send("wear boots");
+    gwc.connection.send("wear robe");
+    gwc.connection.send("wear gloves");
+
+}
+
+function glass_cannon() {
+    gwc.connection.send("wear " + glass_arms);
+    gwc.connection.send("wear " + glass_body);
+    gwc.connection.send("wear " + glass_feet);
+    gwc.connection.send("wear " + glass_head);
+    gwc.connection.send("wear " + glass_legs);
+    gwc.connection.send("wear " + glass_robe);
+    gwc.connection.send("wear " + glass_hands);
+    gwc.connection.send("hold " + glass_wand);
+    gwc.connection.send("get " + glass_wand + " from pouch");
+    gwc.connection.send("hold " + glass_wand);
+    gwc.connection.send("get " + glass_weapon + " from second sack");
+    gwc.connection.send("wield " + glass_weapon);
+    gwc.connection.send("get " + glass_other + " from pouch");
+    gwc.connection.send("hold " + glass_other);
+
+}
+
+function heavy_weapon() {
+    heavy_armour();
+}
+
+function heavy_armour() {
+    gwc.connection.send("wear " + heavy_arms);
+    gwc.connection.send("wear " + heavy_body);
+    gwc.connection.send("wear " + heavy_feet);
+    gwc.connection.send("wear " + heavy_head);
+    gwc.connection.send("wear " + heavy_legs);
+    gwc.connection.send("wear " + heavy_robe);
+    gwc.connection.send("wear " + heavy_hands);
+    gwc.connection.send("wield " + heavy_weapon);
+    gwc.connection.send("wear " + heavy_other);
+    
+
+}
+function darkvis() {
+    gwc.connection.send("get black bandana from pouch");
+    gwc.connection.send("get black bandana from second sack");
+    gwc.connection.send("wear bandana");
+    gwc.connection.send("adjust bandana");
+    glass_cannon();
+}
+
+function standard_before() {
+    gwc.connection.send("open all");
+    gwc.connection.send("remove all");
+    gwc.connection.send("release all");
+    gwc.connection.send("unwield all");
+    gwc.connection.send("get armours from second sack");
+} 
+function standard_after() {
+    gwc.connection.send("wear packs");
+    gwc.connection.send("tie satchel");
+    gwc.connection.send("put unworn armours in sack");
+    gwc.connection.send("wear all");
+    gwc.connection.send("put unheld wands in pouch");
+    gwc.connection.send("put unwielded weapons in second sack");
+    gwc.connection.send("close all");
+    
+}
+
+standard_before();
+switch (args[1]){
+    case 'glass':
+        glass_cannon();
+        break;
+    case 'travelling':
+        glass_travelling();
+        break;
+    case 'weapon':
+        heavy_weapon();
+        break;
+    case 'armour':
+        heavy_armour();
+        break;
+    case 'darkvis':
+    case 'dark':
+    case 'darkness':
+        darkvis();
+        break;
+    default:
+        glass_travelling();
+}
+standard_after();
