@@ -1,11 +1,11 @@
 +==============================================================================+
 | DESCRIPTION: Buttons for mobile                                              |
-| MANIFEST: 1 Alias                                                            |
+| MANIFEST: 1 Alias and 1 Trigger                                              |
 | AUTHOR: Celse                                                                |
 | USAGE: Plug & Play                                                           |
 +==============================================================================+
 
-Pattern: enable_button
+Pattern: button
 Execute the following javascript:
 
 /*jshint ignore:start*/
@@ -34,3 +34,10 @@ const
       buttonDown      = new constructButton ('buttonDown', '35%', '80%', '⇟', "gwc.connection.send('down')"),
       buttonIn        = new constructButton ('buttonIn', '55%', '0%', '↪', "gwc.connection.send('in')"),
       buttonOut       = new constructButton ('buttonOut', '35%', '0%', '↩', "gwc.connection.send('out')")
+      
+Name: Coloring red X
+Type: plain
+Pattern: X
+
+Execute the following javascript:
+gwc.output.replace("X", '<span style="color:crimson">X</span>',true)
