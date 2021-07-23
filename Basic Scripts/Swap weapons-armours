@@ -11,6 +11,7 @@
 Pattern: swap
 Execute the following javascript:
 
+//LIST/ASIGN ARMOURS TO BODY PARTS
 var glass_head = 'unusual black helm';
 var heavy_head = 'unusual black helm';
 var glass_body = 'webcloth body-stocking';
@@ -32,6 +33,7 @@ var heavy_wand = 'twisted wand';
 var glass_other = 'dark grimoire';
 var heavy_other = 'kite shield';
 
+//VARIOUS DRESSING ORDERS
 function glass_travelling() {
     gwc.connection.send("wear webcloth body-stocking");
     //gwc.connection.send("wear shimmering crystalline fullplate");
@@ -102,6 +104,7 @@ function standard_after() {
     
 }
 
+//WORDS WHICH TRIGGER CERTIAN ORDERS OF ARMOUR/WEAPON WIELDING
 standard_before();
 switch (args[1]){
     case 'glass':
