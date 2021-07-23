@@ -1,0 +1,82 @@
+function Intro(){
+  var randomIndex = Math.floor(Math.random() * (d.pinsult.intro).length);
+  var randomIntro = d.pinsult.intro[randomIndex];
+  return randomIntro
+}
+function Adj(){
+  var randomIndex = Math.floor(Math.random() * (d.pinsult.adj).length);
+  var randomAdj = d.pinsult.adj[randomIndex];
+  return randomAdj
+}
+function Adj2(adj1){
+  var randomAdj = adj1;
+  while(randomAdj == adj1){
+    var randomIndex = Math.floor(Math.random() * (d.pinsult.adj).length);
+    randomAdj = d.pinsult.adj[randomIndex];
+  }
+  return randomAdj
+}
+function Noun(){
+  var randomIndex = Math.floor(Math.random() * (d.pinsult.noun).length);
+  var randomNoun = d.pinsult.noun[randomIndex];
+  return randomNoun
+}
+function Outro(){
+  var randomIndex = Math.floor(Math.random() * (d.pinsult.outro).length);
+  var randomOutro = d.pinsult.outro[randomIndex];
+  return randomOutro
+}
+
+//FUNCTION WHICH ASSEMBLES INSULT STRING
+  function Insult(intro, adj1, adj2, noun, outro) {
+    var insult = intro + ", ye " + adj1 + ", " + adj2 + " " + noun + "! ... " + outro;
+    return insult
+  }
+
+//OUTPUTS INSULT INTO SPEACH ON GENESIS WEB-CLIENT
+function Send(insult){
+  //CHECK ARGS1 TO SEE IF TARGET HAS BEEN SPECIFIED
+  if(args[1] != null) send('say to ' + args[1] + ' ' + insult);
+  else send("' " + insult);
+}
+
+//DEFINES CONSTANT FOR LESS TYPING
+const d = gwc.userdata
+const send = gwc.connection.send
+d.pinsult = {}
+
+//CREATE DATABASE OF INTRO ADJECTIVES NOUNS AND OUTROS
+d.pinsult.intro = ["Me parrot be smarter than ye", "I'll skewer yer gizzard",
+                   "I'll eat yer parrot an' drink yer rum", "I'd hang ye from a yardarm, but ye'd break t' mast",
+                   "Thar be seven seas, like t' number o' teeth ye has", "Ye couldn't woo a bucket",
+                   "Dead men tell no tales", "It's t' locker for ye", "Ye couldn't hit water if ye fell out o' a boat",
+                   "Ye smell o' fish an' swine", "Ye fight like a cow",
+                   "I'll strap a cannon to yer bootstraps an' send ye to Davy Jones",
+                   "Yer mother be so fat, she be falling off both sides o' yer ship", "I'll giv' ye no quarter",
+                   "Ye couldn't find t' bottom o' a ship", "Ye smell worse than t' breath o' a kraken",
+                   "Curse you for breathin'", "Yer doom be at hand", "Ye couldn't sail a dinghy 'cross a pond",
+                   "I'll cut ye", "Ye're as smart as a barrel o' bilge"]
+
+d.pinsult.adj = ["filthy", "nasty", "chum-smellin'", "blasted", "feckless", "tun-theivin'",
+                 "craven", "back-stabbin'", "lice-infested", "foul-smellin'", "yellow-bellied", "scrappy", "scabby",
+                 "lyin", "weak-kneed", "knee-knocking", "worthless", "slack-jawed", "lili-livered"]
+
+d.pinsult.noun = ["rougue", "cretin", "kraken", "sea snake", "dullard", "land lubber", "buffoon",
+                  "simpleton", "swab", "codpiece", "swindler", "galley-slave", "sea-bass", "bilge-rat"]
+
+d.pinsult.outro = ["Swab t' poop deck!", "Where's t' grog?", "Walk t' gangplank!", "Gangway!",
+                   "Hoist t' Jolly Rodger!", "Shiver me timbers!", "Yarr!", "Hands off me booty!", "Dance with Lars!",
+                   "Dead men tell no tales!", "Dance with Jack Ketch!"]
+
+//CALL FUNCTIONS TO ASSIGN VARIABLES
+var intro = Intro();
+var adj1 = Adj();
+var adj2 = Adj2();
+var noun = Noun();
+var outro = Outro();
+
+//CALL FUNCTION TO ASSEMBLE INSULT STRING
+var insult = Insult(intro, adj1, adj2, noun, outro);
+
+//CALLS ON FUNCTION TO OUTPUT STRING
+Send(insult);
