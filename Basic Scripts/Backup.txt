@@ -8,7 +8,7 @@
 |                 (repo download triggers & aliases & userdata)                |
 | backup upload   <choose single or multiple files>                            |
 |                 (files name must be triggers/aliases/userdata.json)          |
-|                                                                              |
+|                 (Require Re-connect/Re-login after upload)                   |
 +==============================================================================+
 
 Pattern: backup
