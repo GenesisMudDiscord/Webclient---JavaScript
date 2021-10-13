@@ -1,6 +1,6 @@
 +==============================================================================+
 | DESCRIPTION: Generates insults or battcries in a guild-friendly fashion      |
-| MANIFEST: 1 Alias                                                            |
+| MANIFEST: 1 Alias, 1 trigger                                                 |
 | AUTHOR: Nadineioes                                                           |
 | USAGE: Plug & Play (or modify to suit your own character/guild theme)        |
 +==============================================================================+
@@ -90,3 +90,12 @@ var insult = Insult(intro, adj1, adj2, noun, outro);
 
 //CALLS ON FUNCTION TO OUTPUT STRING
 Send(insult);
+
+
+=================================================================================================================================================
+Name: Attacking
+Type: regexp
+Pattern: ^You(.*)attack the (.*) ([a-zA-Z]*)\.$
+
+Execute the following javascript:
+  gwc.connection.send("pinsult " + args[3], true);
