@@ -37,10 +37,10 @@ if(args[1] === gwc.userdata.leader){
   switch (args[2])
     {
       //WATER AND SHIPS (including Mithas port)
-      case 'rides ' + args[3] + ' climbing into the ' + args[4] + '':
+      case 'rides ' + args[3] + ' climbing into the ' + args[4] + '.':
         gwc.connection.send('board ' + args[4]);
         break;
-      case 'leaves limping climbing into the ' + args[3] + '':
+      case 'leaves limping climbing into the ' + args[3] + '.':
         gwc.connection.send('board ' + args[5]);
         break;
       case 'grabs a rope from the rigging above and swings across to the ' + args[4] + ', landing with catlike grace on its deck':
