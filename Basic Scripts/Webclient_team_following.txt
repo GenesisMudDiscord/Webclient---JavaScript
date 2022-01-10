@@ -22,93 +22,129 @@ Execute the following javascript:
 ==============================================================================================
 Name: ~Team Climbing/entering
 Type: regexp
-Pattern: ^(.*) (grabs a rope from the rigging above and swings across to the (.*)\.|leaves climbing over the gate|falls into a dark hole and disappears|climbs the ladder|slides down in the opening between the sharp stones, and disappears into the darkness|climbs out of the narrow hole|leaves enters a dark opening in the side of the tower|pushes on the doors,|opens the tower door|swims up and rubs the left eye of the|allowing him to swim through to the other side|leaves into the ruined watchtower|slides down in the opening between the sharp stones, and disappears into the darkness|climbs out of the narrow hole in the ceiling|leaves by climbing up the cliff|walks through the gap in the wall, entering Kendermore|walks through the gap in the wall, exiting Kendermore|vanishes into a hidden exit somewhere|exits the shaft!)
+Pattern: ^(.*) (rides (.*) climbing into the (.*)\.|leaves limping climbing into the (.*)\.|grabs a rope from the rigging above and swings across to the (.*), landing with catlike grace on its deck|rides (.*) down the ladder and into the waters of Horned Bay|leaves down the ladder and into the waters of Horned Bay|leaves enters a dark opening in the side of the tower|slides down in the opening between the sharp stones, and disappears into the darkness|climbs out of the narrow hole in the ceiling|falls into a dark hole and disappears|climbs the ladder|leaves climbing up the tree|leaves climbing over the gate|climbs out of the narrow hole|pushes on the doors|leaves into the ruined watchtower|opens the tower door|swims up and rubs the left eye of the|allowing him to swim through to the other side|leaves by climbing up the cliff|walks through the gap in the wall, entering Kendermore|walks through the gap in the wall, exiting Kendermore|vanishes into a hidden exit somewhere|exits the shaft!)
 
 Execute the following javascript:
 
-  gwc.output.append('trigger hit ===' +args[1]);
-  //(gwc.connection.send());
-  //gwc.userdata.leader = gwc.userdata.leader || {};
-    
-  gwc.output.append(gwc.userdata.leader);
-  if(args[1] === gwc.userdata.leader){
-    
-    gwc.output.append('in the right spot2');
-    switch (args[2])
-      {
-        case 'grabs a rope from the rigging above and swings across to the ' + args[3] + '.':
-          gwc.connection.send('board ' + args[3]);
-          break; 
-        case 'falls into a dark hole and disappears':
-          gwc.connection.send('dismount');
-          gwc.connection.send('dismount horse');
-          gwc.connection.send('dig');
-          break;        
-        case 'climbs the ladder':
-          gwc.connection.send('climb ladder');
-          gwc.connection.send('cl', true);// A Hannabeth thing, remove this
-          break; 
-        case 'slides down in the opening between':
-          gwc.connection.send('enter opening');
-          break; 
-        case 'climbs out of the narrow hole':
-          gwc.connection.send('enter opening');
-          break; 
-        case 'leaves enters a dark opening in the side of the tower':
-          gwc.connection.send('enter tower');
-          break; 
-        case 'pushes on the doors,':
-          gwc.connection.send('push door');
-          break; 
-        case 'opens the tower door':
-          gwc.connection.send('open tower door');
-          break; 
-        case 'swims up and rubs the left eye of the':
-          gwc.connection.send('rub left eye');
-          break; 
-        case 'allowing him to swim through to the other side':
-          gwc.connection.send('enter gates');
-          break; 
-        case 'leaves into the ruined watchtower':
-          gwc.connection.send('enter watchtower');
-          break;
-        case 'slides down in the opening between the sharp stones, and disappears into the darkness':
-          gwc.connection.send('dismount');
-          gwc.connection.send('dismount horse');
-          gwc.connection.send('slide opening');
-          break;
-        case 'climbs out of the narrow hole in the ceiling':
-          gwc.connection.send('climb hole');
-          break;
-        case 'leaves climbing over the gate':
-          gwc.connection.send('climb gate');
-          break;
-        case 'gets down on all fours and climbs into the bushes':
-          gwc.connection.send('enter bushes');
-          gwc.connection.send('search brush');
-          break;
-        case 'leaves by climbing up the cliff':
-          gwc.connection.send('climb cliff');
-          gwc.connection.send('climb cliff');
-          break;
-          
-        case 'walks through the gap in the wall, entering Kendermore':
-        case 'walks through the gap in the wall, exiting Kendermore':
-          gwc.connection.send('enter gap');
-          break;
-          
-        case 'vanishes into a hidden exit somewhere':
-          gwc.connection.send('exa bushes');
-          gwc.connection.send('dismount');
-          gwc.connection.send('enter tunnel');
-          break;
-        case 'exits the shaft!':
-          
-          gwc.connection.send('exit shaft');
-          break;
-          
-        default:
-          gwc.output.append('Something has gone very very wrong... ...');
-          break;
-    }
+gwc.output.append('trigger hit ===' +args[1]);
+//(gwc.connection.send());
+//gwc.userdata.leader = gwc.userdata.leader || {};
+  
+gwc.output.append(gwc.userdata.leader);
+if(args[1] === gwc.userdata.leader){
+  
+  gwc.output.append('in the right spot2');
+  switch (args[2])
+    {
+      //WATER AND SHIPS (including Mithas port)
+      case 'rides ' + args[3] + ' climbing into the ' + args[4] + '.':
+        gwc.connection.send('board ' + args[4]);
+        break;
+      case 'leaves limping climbing into the ' + args[3] + '.':
+        gwc.connection.send('board ' + args[5]);
+        break;
+      case 'grabs a rope from the rigging above and swings across to the ' + args[4] + ', landing with catlike grace on its deck':
+        gwc.connection.send('board ' + args[6]);
+        break; 
+      case 'rides ' + args[7] + ' down the ladder and into the waters of Horned Bay':
+      case 'leaves down the ladder and into the waters of Horned Bay':
+        gwc.connection.send('climb down');
+        break;
+      case 'leaves enters a dark opening in the side of the tower':
+        gwc.connection.send('enter tower');
+        break; 
+
+        
+      //GK
+      case 'slides down in the opening between the sharp stones, and disappears into the darkness':
+        gwc.connection.send('dismount');
+        gwc.connection.send('dismount horse');
+        gwc.connection.send('slide opening');
+        break;
+      case 'climbs out of the narrow hole in the ceiling':
+        gwc.connection.send('climb hole');
+        break;
+
+      //BARROWS
+      case 'falls into a dark hole and disappears':
+        gwc.connection.send('dismount');
+        gwc.connection.send('dismount horse');
+        gwc.connection.send('dig');
+        break;    
+      case 'climbs the ladder':
+        //gwc.connection.send('climb ladder');
+        gwc.connection.send('cl', true);// A Hannabeth thing, remove this
+        break; 
+
+      //GENRAL/OTHER/UNKNOWN
+      case 'leaves climbing up the tree':
+        gwc.connection.send('climb tree');
+        break;
+      case 'slides down in the opening between':
+        gwc.connection.send('enter opening');
+        break; 
+      case 'climbs out of the narrow hole':
+        gwc.connection.send('enter opening');
+        break;
+      case 'pushes on the doors,':
+        gwc.connection.send('push door');
+        break; 
+      case 'leaves into the ruined watchtower':
+        gwc.connection.send('enter watchtower');
+        break;
+
+      //SYBARUS KEEP
+      case 'opens the tower door':
+        gwc.connection.send('open tower door');
+        break;
+
+      //THASSALIA GATE
+      case 'swims up and rubs the left eye of the':
+        gwc.connection.send('rub left eye');
+        break; 
+      case 'allowing him to swim through to the other side':
+        gwc.connection.send('enter gates');
+        break; 
+
+      //KALAD GATE
+      case 'leaves climbing over the gate':
+        gwc.connection.send('climb gate');
+        break;
+
+      //GONT KARGS
+      case 'gets down on all fours and climbs into the bushes':
+        gwc.connection.send('enter bushes');
+        gwc.connection.send('search brush');
+        break;
+
+      //TEREL TROLLS
+      case 'leaves by climbing up the cliff':
+        gwc.connection.send('climb cliff');
+        gwc.connection.send('climb cliff');
+        break;
+
+      //KENDERMORE
+      case 'walks through the gap in the wall, entering Kendermore':
+      case 'walks through the gap in the wall, exiting Kendermore':
+        gwc.connection.send('enter gap');
+        break;
+
+      //TROLLSHAWS
+      case 'vanishes into a hidden exit somewhere':
+        gwc.connection.send('exa bushes');
+        gwc.connection.send('exa rubble');
+        gwc.connection.send('dismount');
+        gwc.connection.send('enter tunnel');
+        break;
+
+      //FAERUN WARLOCKS
+      case 'exits the shaft!':
+        gwc.connection.send('exit shaft');
+        break;
+
+      //YOU SHOULD NEVER SEE THIS... IF YOU DO, CONTACT HANNABETH (Nadineioes)
+      default:
+        gwc.output.append('Something has gone very very wrong... ..');
+        break;
   }
+}
