@@ -46,7 +46,7 @@ if(args[1] === gwc.userdata.leader){
       case 'grabs a rope from the rigging above and swings across to the ' + args[4] + ', landing with catlike grace on its deck':
         gwc.connection.send('board ' + args[6]);
         break; 
-      case 'rides ' + args[3] + ' down the ladder and into the waters of Horned Bay':
+      case 'rides ' + args[7] + ' down the ladder and into the waters of Horned Bay':
       case 'leaves down the ladder and into the waters of Horned Bay':
         gwc.connection.send('climb down');
         break;
