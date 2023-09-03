@@ -1,0 +1,97 @@
++==============================================================================+
+| DESCRIPTION: For fast travel from anywhere along a road                      |
+| MANIFEST: 2 Alias, 1 Trigger                                                  |
+| AUTHOR: sarahRosannaBusch                                                    |
+| USAGE: from anywhere on the Orc Road or Mountain Road, do                    |
+|        <pathTo sparkle> or <pathTo faerie>                                   |
+| Optional second arg to stop somewhere along the path:                        |
+|        ex: <pathTo faerie orcFortress> to travel from near Sparkle           |
+|            <pathTo sparkle orcFortress> to travel from near Faerie           |
++==============================================================================+
+
+----------------------------------------------------------------------------------------------------
+pattern: update_paths
+Execute the following javascript:
+----------------------------------------------------------------------------------------------------
+gwc.userdata.paths = {  
+  //Sparkle to Faerie [0], Faerie to Sparkle [1]
+  sparkleFaerie: {
+    //Sparkle bridge
+    "hQdb11":['w', 'e'], "0vlq50":['w', 'e'],
+    //Orc Road
+    "gostc0":['w', 'e'], "ey.Gg/":['w', 'e'], "Y3G4E.":['w', 'e'], "CDpUV1":['w', 'e'],
+    "cCciA0":['w', 'e'], "rszZy0":['w', 'e'], "2PGgS.":['w', 'e'], "hvZJN.":['w', 'e'],
+    "ACB6/0":['w', 'e'], "pUdfW1":['w', 'e'], "zJmIW/":['w', 'e'], 
+    //Mountain Road, North
+    "/zkNh.":['w', 'e'], "p9mPl0":['sw', 'e'], "ny/BZ1":['s', 'ne'], "XLVQP/":['s', 'n'],
+    "YzHdl.":['sw', 'n'], "6dTNs.":['w', 'ne'], "RZ3DK.":['sw', 'e'], "uco1l1":['sw', 'ne'],
+    "gF8pm0":['sw', 'ne'], "fi3nJ1":['s', 'ne'], "5rHwZ/":['se', 'n'], "I8d.5.":['s', 'nw'],
+    "KDVnd1":['se', 'n'], "958mF/":['e', 'nw'], "q8p090":['se', 'w'],
+    //Mountain Road, South 
+    "Qbi6d1":['se', 'nw'], "0EW/H.":['se', 'nw'], "d6MC6.":['se', 'nw'], "5kJ4z1":['e', 'nw'],
+    "Eiac1/":['e', 'w'], "iESC40":['se', 'w'], "pxVcX.":['se', 'nw'], "Adahr.":['e', 'nw'],
+    "4nzHG0":['se', 'w'], "Zt4Bs/":['se', 'nw']
+  }
+}
+gwc.output.append("Your paths have been updated!");
+
+----------------------------------------------------------------------------------------------------
+pattern: pathTo
+Execute the following javascript:
+----------------------------------------------------------------------------------------------------
+
+var dir, road, stop, r = gwc.userdata.paths;
+
+//specify road and direction of travel
+switch(args[1]) {
+  case "faerie": dir = 0; road = r.sparkleFaerie; break;
+  case "sparkle": dir = 1; road = r.sparkleFaerie; break;
+  default: 
+    gwc.output.append("unknown road: " + args[1]); break;
+}
+
+//optionally stop somewhere along the road
+//if omitted you'll travel to the end of the road 
+if(args[2]) {
+  switch(args[2]) {
+    case "orcFortress": stop = "zJmIW/"; break;
+    case "orcCampN": stop = "YzHdl."; break;
+    case "orcCampS": stop = "iESC40"; break;
+    default: 
+      gwc.output.append("unknown stop: " + args[2]); break;
+  }
+}
+
+gwc.trigger.enable("fast travel");
+
+//called from "fast travel" trigger when entering a new room
+gwc.userdata.paths.move = function(roomId) {  
+  if(road && road[roomId]) {
+    if(stop && (stop === roomId)) {
+      arrive();
+    } else {
+      //move to next room
+      gwc.connection.send(road[roomId][dir]);
+    }
+  } else { //you're not on the road anymore
+    arrive();
+  }
+};
+
+function arrive() {
+  gwc.output.append("End of the road.");
+  gwc.trigger.disable("fast travel");
+}
+
+//start moving
+gwc.userdata.paths.move(gwc.gmcp.data.room.id);
+
+----------------------------------------------------------------------------------------------------
+name: fast travel
+type: gmcp
+pattern: room.info
+Execute the following javascript:
+----------------------------------------------------------------------------------------------------
+
+var roomInfo = mud.gmcp['room.info'];
+gwc.userdata.paths.move(roomInfo.id);
