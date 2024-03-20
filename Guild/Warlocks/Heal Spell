@@ -11,6 +11,11 @@
 |            heal dragon 5 (will heal dragon 5 times)                          |
 +==============================================================================+
 
+__________________________________________________
+
+ALIAS
+__________________________________________________
+
 Pattern: heal
 
 Execute the following javascript:
@@ -32,8 +37,8 @@ if (target != "off"){
 	//Checks if spell is only to be repeated once, if so does it the once.
 	if (!repeats){gwc.connection.send("cast urhadoele " + gwc.userdata.healtarget);}
 
-	//If spell is to be repeated, perform required variable declarations and call spell
 	else{
+		//If spell is to be repeated, perform required variable declarations and call spell
 		//Defines counter to track how many times to repeat spell
 		gwc.userdata.healcounter = repeats;
 
@@ -42,6 +47,7 @@ if (target != "off"){
 
 		//Call the heal spell
 		gwc.connection.send("cast urhadoele " + gwc.userdata.healtarget);
+	  gwc.userdata.healcounter -= 1;
 	}
 }
 //Re-equip usual weapons/armours and release enhancers
@@ -61,7 +67,11 @@ else{
 }
 
 
+__________________________________________________
+
 TRIGGERS
+__________________________________________________
+
 Name: Warlocks - healing (loop)
 Type: regexp
 Pattern: ^(?:By focusing the spell on yourself, shadowy tendrils materialize and tend to your wounds\.|^Your summoned shadowy tendrils materialize and tend to the wounds of (.*) healthier\!)$
@@ -81,6 +91,7 @@ Execute the following javascript:
 //If repeats have been completed, re-equip battle gear
   else{ gwc.connection.send("heal off", true);}
 
+_._._._._._._._._._._._._._._._._._._._._._._._._._
 
 Name: Warlocks - Reflaring urhadoele
 Type: regexp
