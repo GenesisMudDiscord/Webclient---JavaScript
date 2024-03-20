@@ -101,4 +101,4 @@ Execute the following javascript:
 //If preperations for heal spell have not been completed, do them
     gwc.connection.send("wacreate urhadoele");
     gwc.connection.send("flare urhadoele");
-    gwc.connection.send("heal", true);
+    gwc.connection.send("heal " + gwc.userdata.healtarget, true);
