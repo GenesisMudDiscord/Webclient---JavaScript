@@ -1,8 +1,18 @@
 
++==============================================================================+
+| DESCRIPTION: Trigger for automatically firing minors chain                   |
+| MANIFEST: 1 Trigger and 1 Alias                                              |
+| AUTHOR: Hannabeth aka Nadineioes                                             |
+| USAGE: *to be added*                                                         |
+|                                                                              |
++==============================================================================+
 
 Pattern: heal
 
 Execute the following javascript:
+
+var (1: target, 2: repeats) = args
+
 //Calls on Alias to equip enhancers correctly
 gwc.connection.send("heal_on",true);
 
