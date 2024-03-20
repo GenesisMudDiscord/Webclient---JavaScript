@@ -1,0 +1,93 @@
+
++==============================================================================+
+| DESCRIPTION: Alias and triggers to use warlock heal spell multiple times.    |
+| MANIFEST: 1 Trigger and 1 Alias                                              |
+| AUTHOR: Hannabeth aka Nadineioes                                             |
+| USAGE: heal <target>                                                         |
+|        Example:                                                              |
+|            heal me (to heal self)                                            |
+|            heal dragon (to heal a person or a dragon npc to "help" knights)  |
+|            heal me 3 (will heal self 3 times)                                |
+|            heal dragon 5 (will heal dragon 5 times)                          |
++==============================================================================+
+
+Pattern: heal
+
+Execute the following javascript:
+//Set all variables to be used for quick referencing
+var {1: target, 2: repeats} = args
+gwc.userdata.healtarget = target
+//
+
+//Perform healing preperations and spell if this is not the end of a loop
+if (target != "off"){
+	//Equip spell enhancers
+	//****Replace this with current load-out****
+	gwc.connection.send("unwield halberd");
+	gwc.connection.send("remove shield");
+	gwc.connection.send("hold wand");
+	//release lamp
+	//wield halberd
+	gwc.connection.send("attune gloves");
+	//Checks if spell is only to be repeated once, if so does it the once.
+	if (!repeats){gwc.connection.send("cast urhadoele " + gwc.userdata.healtarget);}
+
+	//If spell is to be repeated, perform required variable declarations and call spell
+	else{
+		//Defines counter to track how many times to repeat spell
+		gwc.userdata.healcounter = repeats;
+
+		//Communicate to player how many times spell will be repeated
+		gwc.output.append("Healing " + repeats + " times.");
+
+		//Call the heal spell
+		gwc.connection.send("cast urhadoele " + gwc.userdata.healtarget);
+	}
+}
+//Re-equip usual weapons/armours and release enhancers
+else{
+//****Replace this with current load-out****
+  gwc.connection.send("release wand");
+  gwc.connection.send("wield halberd");
+  gwc.connection.send("unwield halberd");
+  gwc.connection.send("wield halberd");
+  gwc.connection.send("wear shield");
+  gwc.connection.send("remove shield");
+  gwc.connection.send("wear shield");
+  gwc.connection.send("attune gloves");
+
+//Recall special attacks incase unwielding messed with that
+  gwc.connection.send("impale");
+}
+
+
+TRIGGERS
+Name: Warlocks - healing (loop)
+Type: regexp
+Pattern: ^(?:By focusing the spell on yourself, shadowy tendrils materialize and tend to your wounds\.|^Your summoned shadowy tendrils materialize and tend to the wounds of (.*) healthier\!)$
+
+Execute the following javascript:
+//Set a variable for easier referencing
+  var repeats = gwc.userdata.healcounter;
+
+//Checks how many more times to heal using pre-set counter
+  if (repeats > 0){  
+//Calls heal alias and decrease the heal counter
+    gwc.connection.send("heal " + gwc.userdata.healtarget, true); 
+    gwc.userdata.healcounter -= 1;
+//Communicate to player how many more times spell will be repeating
+    gwc.output.append("Healing " + gwc.userdata.healcounter + " more times.");
+  }
+//If repeats have been completed, re-equip battle gear
+  else{ gwc.connection.send("heal off", true);}
+
+
+Name: Warlocks - Reflaring urhadoele
+Type: regexp
+Pattern: ^You lack the necessary preparations to cast Urhadoele\!$
+
+Execute the following javascript:
+//If preperations for heal spell have not been completed, do them
+    gwc.connection.send("wacreate urhadoele");
+    gwc.connection.send("flare urhadoele");
+    gwc.connection.send("heal", true);
