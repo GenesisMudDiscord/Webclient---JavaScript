@@ -1,12 +1,12 @@
 
 +==============================================================================+
 | DESCRIPTION: Alias and triggers to use warlock heal spell multiple times.    |
-| MANIFEST: 1 Trigger and 1 Alias                                              |
+| MANIFEST: 2 Trigger and 1 Alias                                              |
 | AUTHOR: Hannabeth aka Nadineioes                                             |
 | USAGE: heal <target>                                                         |
 |        Example:                                                              |
 |            heal me (to heal self)                                            |
-|            heal dragon (to heal a person or a dragon npc to "help" knights)  |
+|            heal dragon (to heal a person or a dragon npc to "help")          |
 |            heal me 3 (will heal self 3 times)                                |
 |            heal dragon 5 (will heal dragon 5 times)                          |
 +==============================================================================+
