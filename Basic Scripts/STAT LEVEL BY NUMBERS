@@ -1,0 +1,181 @@
+// THESE SCRIPTS GIVE NUMBERED LEVELS TO ALL STATS (CONSTITUTION, DEXTERITY, DISCIPLINE, 
+// INTELLIGENCE, STRENGHT, AND WISDOM)
+// EX: "You are a titanic, acrobatic, sturdy, bright, wise and fearless silly ageless human" becomes
+// "You are a titanic (15/23), acrobatic (15/23), sturdy (14/23), bright (12/23), wise (14/23) and 
+// fearless (12/23) silly ageless human"
+
+Name: STATS - LEVELS - CONSTITUTION
+Type: regexp
+Pattern: (sickly|fragile|frail|skinny|lean|healthy|firm|hearty|hardy|hale|robust|staunch|tough|sturdy|vigorous|epic constitution|immortal constitution|supreme constitution|extraordinary constitution|incredible constitution|unbelievable constitution|miraculous constitution|impossible constitution)
+
+Execute the following javascript:
+     gwc.output.replace('sickly, ', 'sickly (1/23), ');
+     gwc.output.replace('fragile, ', 'fragile (2/23), ');
+     gwc.output.replace('frail, ', 'frail (3/23), ');
+     gwc.output.replace('skinny, ', 'skinny (4/23), ');
+     gwc.output.replace('lean, ', 'lean (5/23), ');
+     gwc.output.replace('healthy, ', 'healthy (6/23), ');
+     gwc.output.replace('firm, ', 'firm (7/23), ');
+     gwc.output.replace('hearty, ', 'hearty (8/23), ');
+     gwc.output.replace('hardy, ', 'hardy (9/23), ');
+     gwc.output.replace('hale, ', 'hale (10/23), ');
+     gwc.output.replace('robust, ', 'robust (11/23), ');
+     gwc.output.replace('staunch, ', 'staunch (12/23), ');
+     gwc.output.replace('tough, ', 'tough (13/23), ');
+     gwc.output.replace('sturdy, ', 'sturdy (14/23), ');
+     gwc.output.replace('vigorous, ', 'vigorous (15/23), ');
+     gwc.output.replace('epic constitution, ', 'epic constitution (16/23), ');
+     gwc.output.replace('immortal constitution, ', 'immortal constitution (17/23), ');
+     gwc.output.replace('supreme constitution, ', 'supreme constitution (18/23), ');
+     gwc.output.replace('extraordinary constitution, ', 'extraordinary constitution (19/23), ');
+     gwc.output.replace('incredible constitution, ' , 'incredible constitution (20/23), ');
+     gwc.output.replace('unbelievable constitution, ', 'unbelievable constitution (21/23), ');
+     gwc.output.replace('miraculous constitution, ', 'miraculous constitution (22/23), ');
+     gwc.output.replace('impossible constitution, ', 'impossible constitution (23/23), ');
+
+Name: STATS - LEVELS - DEXTERITY
+Type: regexp
+Pattern: (stiff|lumbering|clumsy|deft|flexible|nimble|lithe|supple|agile|swift|quick|graceful|athletic|gymnastic|acrobatic|epic dexterity|immortal dexterity|supreme dexterity|extraordinary dexterity|incredible
+  dexterity|unbelievable dexterity|miraculous dexterity|impossible dexterity)
+
+Execute the following javascript:
+     gwc.output.replace(‘stiff, ', ‘stiff (1/23), ');
+     gwc.output.replace('lumbering, ', 'lumbering (2/23), ');
+     gwc.output.replace(‘clumsy, ', ‘clumsy (3/23), ');
+     gwc.output.replace(‘deft, ', ‘deft (4/23), ');
+     gwc.output.replace(‘flexible, ', ‘flexible (5/23), ');
+     gwc.output.replace(‘nimble, ', ‘nimble (6/23), ');
+     gwc.output.replace(‘lithe, ', ‘lithe (7/23), ');
+     gwc.output.replace(‘supple, ', ‘supple (8/23), ');
+     gwc.output.replace(‘agile, ', ‘agile (9/23), ');
+     gwc.output.replace(‘swift, ', ‘swift (10/23), ');
+     gwc.output.replace(‘quick, ', ‘quick (11/23), ');
+     gwc.output.replace(‘graceful, ', ‘graceful (12/23), ');
+     gwc.output.replace(‘athletic, ', ‘athletic (13/23), ');
+     gwc.output.replace(‘gymnastic, ', ‘gymnastic (14/23), ');
+     gwc.output.replace(‘acrobatic, ', ‘acrobatic (15/23), ');
+     gwc.output.replace('epic dexterity, ', 'epic dexterity (16/23), ');
+     gwc.output.replace('immortal dexterity, ', 'immortal dexterity (17/23), ');
+     gwc.output.replace('supreme dexterity, ', 'supreme dexterity (18/23), ');
+     gwc.output.replace('extraordinary dexterity, ', 'extraordinary dexterity (19/23), ');
+     gwc.output.replace('incredible dexterity, ' , 'incredible dexterity (20/23), ');
+     gwc.output.replace('unbelievable dexterity, ', 'unbelievable dexterity (21/23), ');
+     gwc.output.replace('miraculous dexterity, ', 'miraculous dexterity (22/23), ');
+     gwc.output.replace('impossible dexterity, ', 'impossible dexterity (23/23), ');
+
+Name: STATS - LEVELS - DEXTERITY
+Type: regexp
+Pattern: (and gutless|and frightened|and spineless|and fearful|and cowardly|and insecure|and timid|and sound|and bold|and brave|and courageous|and fearless|and valiant|and heroic|and lionhearted|and epic discipline|and immortal discipline|and supreme discipline|and extraordinary
+   discipline|and incredible discipline|and unbelievable discipline|and miraculous discipline|and impossible discipline)
+
+Execute the following javascript:
+     gwc.output.replace('and gutless', 'and gutless (1/23)');
+     gwc.output.replace('and frightened', 'and frightened (2/23)');
+     gwc.output.replace('and spineless', 'and spineless (3/23)');
+     gwc.output.replace('and fearful', 'and fearful (4/23)');
+     gwc.output.replace('and cowardly', 'and cowardly (5/23)');
+     gwc.output.replace('and insecure', 'and insecure (6/23)');
+     gwc.output.replace('and timid', 'and timid (7/23)');
+     gwc.output.replace('and sound', 'and sound (8/23)');
+     gwc.output.replace('and bold', 'and bold (9/23)');
+     gwc.output.replace('and brave', 'and brave (10/23)');
+     gwc.output.replace('and courageous', 'and courageous (11/23)');
+     gwc.output.replace('and fearless', 'and fearless (12/23)');
+     gwc.output.replace('and valient', 'and valient (13/23)');
+     gwc.output.replace('and heroic', 'and heroic (14/23)');
+     gwc.output.replace('and lionhearted', 'and lionhearted (15/23)');
+     gwc.output.replace('and epic discipline', 'and epic discipline (16/23)');
+     gwc.output.replace('and immortal discipline', 'and immortal discipline (17/23)');
+     gwc.output.replace('and supreme discipline', 'and supreme discipline (18/23)');
+     gwc.output.replace('and extraordinary discipline', 'and extraordinary discipline (19/23)');
+     gwc.output.replace('and incredible discipline' , 'and incredible discipline (20/23)');
+     gwc.output.replace(‘and unbelievable discipline', 'and unbelievable discipline (21/23)');
+     gwc.output.replace('and miraculous discipline', 'and miraculous discipline (22/23)');
+     gwc.output.replace('and impossible discipline', 'and impossible discipline (23/23)');
+
+Name: STATS - LEVELS - STRENGTH
+Type: regexp
+Pattern: (puny|feeble|flimsy|weak|well built|muscular|hefty|strong|powerful|musclebound|ironlike|forceful|crushing|mighty|titanic|epic strength|immortal strength|supreme strength|extraordinary strength|incredible strength|unbelievable strength|miraculous strength|impossible strength)
+
+Execute the following javascript:
+     gwc.output.replace(‘puny, ', ‘puny (1/23), ');
+     gwc.output.replace(‘feeble, ', ‘feeble (2/23), ');
+     gwc.output.replace(‘flimsy, ', ‘flimsy (3/23), ');
+     gwc.output.replace(‘weak, ', ‘weak (4/23), ');
+     gwc.output.replace(‘well built, ', ‘well built (5/23), ');
+     gwc.output.replace(‘muscular, ', ‘muscular (6/23), ');
+     gwc.output.replace(‘hefty, ', ‘hefty (7/23), ');
+     gwc.output.replace(‘strong, ', ‘strong (8/23), ');
+     gwc.output.replace(‘powerful, ', ‘powerful (9/23), ');
+     gwc.output.replace(‘musclebound, ', ‘musclebound (10/23), ');
+     gwc.output.replace(‘ironlike, ', ‘ironlike (11/23), ');
+     gwc.output.replace(‘forceful, ', ‘forceful (12/23), ');
+     gwc.output.replace(‘crushing, ', ‘crushing (13/23), ');
+     gwc.output.replace(‘mighty, ', ‘mighty (14/23), ');
+     gwc.output.replace(‘titanic, ', ‘titanic (15/23), ');
+     gwc.output.replace('epic strength, ', 'epic strength (16/23), ');
+     gwc.output.replace('immortal strength, ', 'immortal strength (17/23), ');
+     gwc.output.replace('supreme strength, ', 'supreme strength (18/23), ');
+     gwc.output.replace('extraordinary strength, ', 'extraordinary strength (19/23), ');
+     gwc.output.replace('incredible strength, ' , 'incredible strength (20/23), ');
+     gwc.output.replace('unbelievable strength, ', 'unbelievable strength (21/23), ');
+     gwc.output.replace('miraculous strength, ', 'miraculous strength (22/23), ');
+     gwc.output.replace('impossible strength, ', 'impossible strength (23/23), ');
+
+Name: STATS - LEVELS - INTELLIGENCE
+Type: regexp
+Pattern: (moronic|dimwitted|simple|dense|slow|limited|keen|clever|quick minded|intelligent|sharp|bright|inventive|ingenious|brilliant|epic intelligence|immortal intelligence|supreme intelligence|extraordinary intelligence|incredible intelligence|unbelievable intelligence|miraculous intelligence|impossible intelligence)
+
+Execute the following javascript:
+     gwc.output.replace('moronic, ', 'moronic (1/23), ');
+     gwc.output.replace('dimwitted, ', 'dimwitted (2/23), ');
+     gwc.output.replace('simple, ', 'simple (3/23), ');
+     gwc.output.replace('dense, ', 'dense (4/23), ');
+     gwc.output.replace('slow, ', 'slow (5/23), ');
+     gwc.output.replace('limited, ', 'limited (6/23), ');
+     gwc.output.replace('keen, ', 'keen (7/23), ');
+     gwc.output.replace('clever, ', 'clever (8/23), ');
+     gwc.output.replace('quick minded, ', 'quick minded (9/23), ');
+     gwc.output.replace('intelligent, ', 'intelligent (10/23), ');
+     gwc.output.replace('sharp, ', 'sharp (11/23), ');
+     gwc.output.replace('bright, ', 'bright (12/23), ');
+     gwc.output.replace('inventive, ', 'inventive (13/23), ');
+     gwc.output.replace('ingenious, ', 'ingenious (14/23), ');
+     gwc.output.replace('brilliant, ', 'brilliant (15/23), ');
+     gwc.output.replace('epic intelligence, ', 'epic intelligence (16/23), ');
+     gwc.output.replace('immortal intelligence, ', 'immortal intelligence (17/23), ');
+     gwc.output.replace('supreme intelligence, ', 'supreme intelligence (18/23), ');
+     gwc.output.replace('extraordinary intelligence, ', 'extraordinary intelligence (19/23), ');
+     gwc.output.replace('incredible intelligence, ' , 'incredible intelligence (20/23), ');
+     gwc.output.replace('unbelievable intelligence, ', 'unbelievable intelligence (21/23), ');
+     gwc.output.replace('miraculous intelligence, ', 'miraculous intelligence (22/23), ');
+     gwc.output.replace('impossible intelligence, ', 'impossible intelligence (23/23), ');
+
+Name: STATS - LEVELS - WISDOM
+Type: regexp
+Pattern: (inane and |stupid and|idiotic and|foolish and|uneducated and|literate and|educated and|learned and|scholarly and|cultivated and|knowledge and|able and|erudite and|wise and|sage and|enlightened and|epic wisdom and|immortal wisdom and|supreme wisdom and|extraordinary wisdom and|incredible wisdom and|unbelievable wisdom and|miraculous wisdom and|impossible wisdom and)
+
+Execute the following javascript:
+     gwc.output.replace(‘inane and', ‘inane (1/23) and');
+     gwc.output.replace(‘stupid and', ‘stupid (2/23) and');
+     gwc.output.replace(‘idiotic and ', ‘idiotic (3/23) and');
+     gwc.output.replace(‘foolish and ', ‘foolish (4/23) and');
+     gwc.output.replace(‘uneducated and ', ‘uneducated (5/23) and');
+     gwc.output.replace(‘literate and ', ‘literate (6/23) and');
+     gwc.output.replace(‘educated and ', ‘educated (7/23) and');
+     gwc.output.replace(‘learned and', ‘learned (8/23) and');
+     gwc.output.replace('scholarly, and', 'scholarly (9/23) and');
+     gwc.output.replace(‘cultivated and ', ‘cultivated (10/23) and');
+     gwc.output.replace(‘knowledge and', ‘knowledge (11/23) and');
+     gwc.output.replace(‘able and ', ‘able (12/23) and');
+     gwc.output.replace(‘erudite and ', ‘erudite (13/23) and');
+     gwc.output.replace(‘wise and', ‘wise (14/23) and');
+     gwc.output.replace(‘sage and', ‘sage (15/23) and');
+     gwc.output.replace('epic wisdom and', 'epic wisdom (16/23) and');
+     gwc.output.replace('immortal wisdom and', 'immortal wisdom (17/23) and');
+     gwc.output.replace('supreme wisdom and ', 'supreme wisdom (18/23) and');
+     gwc.output.replace('extraordinary wisdom and', 'extraordinary wisdom (19/23 and');
+     gwc.output.replace('incredible wisdom and ' , 'incredible wisdom (20/23) and');
+     gwc.output.replace('unbelievable wisdom and ', 'unbelievable wisdom (21/23) and');
+     gwc.output.replace('miraculous wisdom and ', 'miraculous wisdom (22/23) and');
+     gwc.output.replace('impossible wisdom and', 'impossible wisdom (23/23) and');
